@@ -1,0 +1,77 @@
+---
+import type { HomeCopy } from '../../i18n/home';
+
+interface Props {
+  sectionId: string;
+  footer: HomeCopy['footer'];
+  me: HomeCopy['ME'];
+}
+
+const { sectionId, footer, me } = Astro.props;
+---
+
+<section id={sectionId} style="padding:90px 40px; text-align:center; background:var(--ink);">
+  <p
+    style="font-family:'DM Mono',monospace; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:.15em; text-transform:uppercase; margin-bottom:20px;"
+  >
+    {footer.kicker}
+  </p>
+  <h2
+    style="font-family:'Syne',sans-serif; font-size:clamp(40px,7vw,72px); font-weight:800; color:var(--paper); letter-spacing:-.04em; line-height:.95; margin-bottom:16px;"
+    set:html={footer.titleHtml}
+  />
+  <p style="font-family:'DM Mono',monospace; font-size:13px; color:rgba(255,255,255,0.35); margin-bottom:36px;">
+    {footer.subtitle}
+  </p>
+
+  <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+    <a
+      href={`mailto:${me.email}`}
+      style="font-family:'DM Mono',monospace; font-size:13px; padding:14px 32px; border-radius:2px; background:var(--accent); color:var(--ink); text-decoration:none; letter-spacing:.05em; transition:opacity .2s;"
+      onmouseover="this.style.opacity='.85';"
+      onmouseout="this.style.opacity='1';"
+      data-hover
+    >
+      {me.email}
+    </a>
+    <a
+      href={me.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      style="font-family:'DM Mono',monospace; font-size:13px; padding:14px 32px; border-radius:2px; border:1px solid rgba(255,255,255,0.18); color:var(--paper); text-decoration:none; letter-spacing:.05em; transition:border-color .2s;"
+      onmouseover="this.style.borderColor='rgba(255,255,255,0.5)';"
+      onmouseout="this.style.borderColor='rgba(255,255,255,0.18)';"
+      data-hover
+    >
+      LinkedIn →
+    </a>
+  </div>
+
+  <div
+    style="display:flex; gap:32px; justify-content:center; margin-top:52px; padding-top:32px; border-top:1px solid rgba(255,255,255,0.08);"
+  >
+    {[
+      { label: 'GitHub', href: me.github },
+      { label: 'LinkedIn', href: me.linkedin },
+      { label: 'Twitter/X', href: me.twitter },
+      { label: footer.socialCv, href: me.cvUrl },
+    ].map((link) => (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        style="font-family:'DM Mono',monospace; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:.1em; text-transform:uppercase; text-decoration:none; transition:color .2s;"
+        onmouseover="this.style.color='rgba(255,255,255,0.8)';"
+        onmouseout="this.style.color='rgba(255,255,255,0.3)';"
+        data-hover
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+
+  <p style="font-family:'DM Mono',monospace; font-size:10px; color:rgba(255,255,255,0.15); margin-top:40px; letter-spacing:.08em;">
+    © {new Date().getFullYear()}
+    {me.name} · {footer.builtWith}
+  </p>
+</section>

@@ -1,0 +1,170 @@
+---
+import '../styles/global.css';
+import { SITE } from '../config/site';
+
+interface HreflangAlternate {
+  hreflang: string;
+  href: string;
+}
+
+interface Props {
+  lang: string;
+  title: string;
+  description: string;
+  keywords: string;
+  canonicalUrl: string;
+  openGraphLocale: string;
+  personName: string;
+  personEmail: string;
+  personJobTitle: string;
+  personDescription: string;
+  personSameAs: string[];
+  hreflangAlternates: HreflangAlternate[];
+}
+
+const {
+  lang,
+  title,
+  description,
+  keywords,
+  canonicalUrl,
+  openGraphLocale,
+  personName,
+  personEmail,
+  personJobTitle,
+  personDescription,
+  personSameAs,
+  hreflangAlternates,
+} = Astro.props;
+
+const ogImageUrl = new URL(SITE.ogImage, SITE.url).href;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: personName,
+  url: canonicalUrl,
+  email: personEmail,
+  jobTitle: personJobTitle,
+  description: personDescription,
+  sameAs: personSameAs,
+  knowsAbout: [
+    'Full Stack Development',
+    'Backend Development',
+    'Frontend Development',
+    'DevOps',
+    'Serverless Architecture',
+    'Artificial Intelligence',
+    'Machine Learning',
+    'RAG',
+    'LLM',
+    'TypeScript',
+    'React',
+    'Node.js',
+    'AWS',
+    'Docker',
+    'Kubernetes',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Lima',
+    addressCountry: 'PE',
+  },
+};
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={personName} />
+    <meta name="keywords" content={keywords} />
+    <link rel="canonical" href={canonicalUrl} />
+    {hreflangAlternates.map((alt) => (
+      <link rel="alternate" hreflang={alt.hreflang} href={alt.href} />
+    ))}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:locale" content={openGraphLocale} />
+    <meta property="og:site_name" content={personName} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content={SITE.twitterHandle} />
+    <meta name="twitter:creator" content={SITE.twitterHandle} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+
+  <body>
+    <div id="cursor"></div>
+    <div id="cursor-ring"></div>
+
+    <slot />
+
+    <script>
+      const cursor = document.getElementById('cursor');
+      const ring = document.getElementById('cursor-ring');
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        if (cursor) {
+          cursor.style.left = mx + 'px';
+          cursor.style.top = my + 'px';
+        }
+      });
+
+      function animateRing() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        if (ring) {
+          ring.style.left = rx + 'px';
+          ring.style.top = ry + 'px';
+        }
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('animate-fade-up');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

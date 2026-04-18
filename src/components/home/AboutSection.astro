@@ -1,0 +1,52 @@
+---
+import Terminal from '../Terminal.tsx';
+import type { HomeCopy } from '../../i18n/home';
+
+interface Props {
+  sectionId: string;
+  about: HomeCopy['about'];
+  bio: string;
+}
+
+const { sectionId, about, bio } = Astro.props;
+const aboutTitleHtml = about.titleLines.join('<br />');
+---
+
+<section id={sectionId} style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--border);">
+  <div style="padding:70px 40px; border-right:1px solid var(--border);">
+    <div
+      style="font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:20px;"
+    >
+      {about.sectionNum}
+    </div>
+    <h2
+      data-animate
+      style="font-family:'Syne',sans-serif; font-size:46px; font-weight:800; letter-spacing:-.03em; line-height:1.05; margin-bottom:28px;"
+      set:html={aboutTitleHtml}
+    />
+    <p style="font-family:'DM Mono',monospace; font-size:13px; color:var(--muted); line-height:1.9; white-space:pre-line;">
+      {bio}
+    </p>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:40px; border-top:1px solid var(--border);">
+      {about.values.map((item, i) => (
+        <div
+          style={`padding:18px 20px; ${i % 2 === 0 ? 'border-right:1px solid var(--border);' : ''} ${i < 2 ? 'border-bottom:1px solid var(--border);' : ''}`}
+        >
+          <div
+            style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px;"
+          >
+            {item.label}
+          </div>
+          <div style="font-family:'DM Mono',monospace; font-size:13px; color:var(--ink);">{item.value}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <div style="padding:40px; background:var(--ink); display:flex; align-items:center;">
+    <div style="width:100%;">
+      <Terminal client:visible />
+    </div>
+  </div>
+</section>

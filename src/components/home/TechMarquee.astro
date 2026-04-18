@@ -1,0 +1,21 @@
+---
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+const loop = [...items, ...items];
+---
+
+<div style="border-bottom:1px solid var(--border); padding:14px 0; overflow:hidden; background:var(--ink);" aria-hidden="true">
+  <div style="display:flex; animation:marquee 20s linear infinite; white-space:nowrap;">
+    {loop.map((item) => (
+      <span
+        style="font-family:'DM Mono',monospace; font-size:12px; color:rgba(245,243,239,0.55); padding:0 32px; letter-spacing:.1em; text-transform:uppercase;"
+      >
+        <span style="color:#00c896; margin-right:8px;">▸</span>
+        {item}
+      </span>
+    ))}
+  </div>
+</div>

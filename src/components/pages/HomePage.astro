@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../Nav.astro';
+import HomeHero from '../home/HomeHero.astro';
+import TechMarquee from '../home/TechMarquee.astro';
+import StackSection from '../home/StackSection.astro';
+import ProjectsSection from '../home/ProjectsSection.astro';
+import AboutSection from '../home/AboutSection.astro';
+import ContactSection from '../home/ContactSection.astro';
+import { SITE } from '../../config/site';
+import type { HomeCopy } from '../../i18n/home';
+
+interface Props {
+  copy: HomeCopy;
+}
+
+const { copy } = Astro.props;
+const { ME, STACK, PROJECTS, MARQUEE_ITEMS, sectionIds, nav, meta, stack, projects, about, footer } = copy;
+
+const canonicalPath = copy.locale === 'es' ? '/' : '/en/';
+const canonicalUrl = new URL(canonicalPath, SITE.url).href;
+const hrefEs = new URL('/', SITE.url).href;
+const hrefEn = new URL('/en/', SITE.url).href;
+---
+
+<BaseLayout
+  lang={copy.htmlLang}
+  title={meta.title}
+  description={meta.description}
+  keywords={meta.keywords}
+  canonicalUrl={canonicalUrl}
+  openGraphLocale={copy.openGraphLocale}
+  personName={ME.name}
+  personEmail={ME.email}
+  personJobTitle={copy.personJobTitle}
+  personDescription={meta.description}
+  personSameAs={[ME.github, ME.linkedin, ME.twitter]}
+  hreflangAlternates={[
+    { hreflang: 'es', href: hrefEs },
+    { hreflang: 'en', href: hrefEn },
+    { hreflang: 'x-default', href: hrefEs },
+  ]}
+>
+  <Nav locale={copy.locale} nav={nav} sectionIds={sectionIds} />
+  <HomeHero copy={{ ME, hero: copy.hero, sectionIds, srOnly: copy.srOnly }} />
+  <TechMarquee items={MARQUEE_ITEMS} />
+  <StackSection sectionId={sectionIds.stack} stack={stack} columns={STACK} />
+  <ProjectsSection
+    sectionId={sectionIds.projects}
+    projects={projects}
+    items={PROJECTS}
+    githubUrl={ME.github}
+  />
+  <AboutSection sectionId={sectionIds.about} about={about} bio={ME.bio} />
+  <ContactSection sectionId={sectionIds.contact} footer={footer} me={ME} />
+</BaseLayout>

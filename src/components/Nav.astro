@@ -1,0 +1,88 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import type { HomeCopy } from '../i18n/home';
+
+interface Props {
+  locale: 'es' | 'en';
+  nav: HomeCopy['nav'];
+  sectionIds: HomeCopy['sectionIds'];
+}
+
+const { locale, nav, sectionIds } = Astro.props;
+const homeHref = getRelativeLocaleUrl(locale, '/');
+const switchLocale = locale === 'es' ? 'en' : 'es';
+const switchHref = getRelativeLocaleUrl(switchLocale, '/');
+---
+
+<nav
+  id="navbar"
+  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-10 py-5 transition-all duration-300"
+  style="border-bottom: 1px solid transparent;"
+>
+  <a
+    href={homeHref}
+    class="font-mono text-[13px] text-muted no-underline hover:text-ink transition-colors"
+    aria-label={nav.homeAria}
+  >
+    <span class="text-accent">&gt;</span> dev.portfolio<span class="text-accent animate-[blink_1s_step-end_infinite]">_</span>
+  </a>
+
+  <div class="hidden md:flex items-center gap-7">
+    <a
+      href={`${homeHref}#${sectionIds.stack}`}
+      class="nav-link font-mono text-[11px] text-muted tracking-widest uppercase hover:text-ink transition-colors no-underline"
+    >
+      {nav.stack}
+    </a>
+    <a
+      href={`${homeHref}#${sectionIds.projects}`}
+      class="nav-link font-mono text-[11px] text-muted tracking-widest uppercase hover:text-ink transition-colors no-underline"
+    >
+      {nav.projects}
+    </a>
+    <a
+      href={`${homeHref}#${sectionIds.about}`}
+      class="nav-link font-mono text-[11px] text-muted tracking-widest uppercase hover:text-ink transition-colors no-underline"
+    >
+      {nav.about}
+    </a>
+  </div>
+
+  <div class="flex items-center gap-3 shrink-0">
+    <a
+      href={switchHref}
+      class="font-mono text-[11px] text-muted tracking-widest uppercase no-underline border border-[rgba(10,10,10,0.15)] px-3 py-1.5 rounded-[2px] hover:border-accent hover:text-ink transition-colors"
+      hreflang={switchLocale}
+      lang={switchLocale}
+    >
+      {nav.langSwitch}
+    </a>
+    <a
+      href={`${homeHref}#${sectionIds.contact}`}
+      class="font-mono text-[12px] bg-ink text-paper px-5 py-2 rounded-[2px] no-underline tracking-wider hover:bg-accent hover:text-ink transition-all duration-200"
+      data-hover
+    >
+      {nav.contact}
+    </a>
+  </div>
+</nav>
+
+<div class="h-16"></div>
+
+<script>
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    if (!navbar) return;
+    if (window.scrollY > 20) {
+      navbar.style.borderBottom = '1px solid rgba(10,10,10,0.12)';
+      navbar.style.background = 'rgba(245,243,239,0.92)';
+      navbar.style.setProperty('backdrop-filter', 'blur(12px)');
+      navbar.style.setProperty('-webkit-backdrop-filter', 'blur(12px)');
+    } else {
+      navbar.style.borderBottom = '1px solid transparent';
+      navbar.style.background = 'transparent';
+      navbar.style.removeProperty('backdrop-filter');
+      navbar.style.removeProperty('-webkit-backdrop-filter');
+    }
+  });
+</script>
