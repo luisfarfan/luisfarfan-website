@@ -94,8 +94,11 @@ portfolio/
 │   └── robots.txt
 ├── src/
 │   ├── components/
-│   │   ├── Nav.astro          — Navbar fija con scroll effect
-│   │   ├── PretextHero.tsx    — Canvas animado con Pretext.js
+│   │   ├── home/              — Secciones de la landing (hero, stack, etc.)
+│   │   ├── pages/
+│   │   │   └── HomePage.astro — Orquesta layout + secciones
+│   │   ├── Nav.astro          — Navbar + idioma
+│   │   ├── PretextHero.tsx    — Canvas con @chenglou/pretext
 │   │   └── Terminal.tsx       — Terminal animada
 │   ├── layouts/
 │   │   └── BaseLayout.astro   — SEO completo + Schema.org
