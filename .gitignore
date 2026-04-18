@@ -1,0 +1,7 @@
+dist/
+.astro/
+node_modules/
+lighthouse-report.json
+lighthouse-report.html
+
+.DS_Store
