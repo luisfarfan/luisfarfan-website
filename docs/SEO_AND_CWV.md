@@ -33,12 +33,12 @@ Con **Astro 4.16** + **@astrojs/sitemap 3.7.x**, el hook `astro:routes:resolved`
 
 - Metadatos y JSON-LD `Person` en [`src/layouts/BaseLayout.astro`](../src/layouts/BaseLayout.astro).
 - **Multiidioma (ES / EN)**: rutas `/` y `/en/` con `hreflang` + canonical por idioma; copy en [`src/i18n/home.ts`](../src/i18n/home.ts).
-- Hero con **H1 y texto en HTML**; el canvas de `PretextHero` es **decorativo** (`aria-hidden`) con texto accesible de contexto (`sr-only`).
-- `@chenglou/pretext` para **saltos de línea sin reflow** del DOM; el contenido indexable no depende del canvas.
+- Hero con **h1 sr-only** (nombre + cargo en HTML); el nombre se pinta en canvas con `HeroHeadlinePretext` (`aria-hidden`) como **mosaico de microglifos** (DM Mono / estilo Matrix sobre silueta Syne; refuerzo tenue a línea completa), resalte circular y repel ligero al puntero.
+- Con `prefers-reduced-motion`, `HeroHeadlinePretext` no mantiene animación continua tras el primer layout estable.
 
 ## `prefers-reduced-motion`
 
-`PretextHero` no programa animación continua si el usuario pide movimiento reducido.
+`HeroHeadlinePretext` no mantiene animación continua (resalte / sustituciones Matrix) si el usuario pide movimiento reducido.
 
 ## Última corrida de Lighthouse (lab, local)
 

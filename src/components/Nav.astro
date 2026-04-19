@@ -6,83 +6,217 @@ interface Props {
   locale: 'es' | 'en';
   nav: HomeCopy['nav'];
   sectionIds: HomeCopy['sectionIds'];
+  me: HomeCopy['ME'];
 }
 
-const { locale, nav, sectionIds } = Astro.props;
+const { locale, nav, sectionIds, me } = Astro.props;
 const homeHref = getRelativeLocaleUrl(locale, '/');
-const switchLocale = locale === 'es' ? 'en' : 'es';
-const switchHref = getRelativeLocaleUrl(switchLocale, '/');
+const hrefEs = getRelativeLocaleUrl('es', '/');
+const hrefEn = getRelativeLocaleUrl('en', '/');
+
+const links = [
+  { href: `${homeHref}#${sectionIds.stack}`, label: nav.stack },
+  { href: `${homeHref}#${sectionIds.projects}`, label: nav.projects },
+  { href: `${homeHref}#${sectionIds.about}`, label: nav.about },
+] as const;
 ---
 
-<nav
-  id="navbar"
-  class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-10 py-5 transition-all duration-300"
-  style="border-bottom: 1px solid transparent;"
->
-  <a
-    href={homeHref}
-    class="font-mono text-[13px] text-muted no-underline hover:text-ink transition-colors"
-    aria-label={nav.homeAria}
+<header class="fixed top-0 left-0 right-0 z-50">
+  <nav
+    id="navbar"
+    class="border-b border-transparent transition-[background,border-color,box-shadow] duration-300 ease-out"
+    aria-label="Primary"
   >
-    <span class="text-accent">&gt;</span> dev.portfolio<span class="text-accent animate-[blink_1s_step-end_infinite]">_</span>
-  </a>
+    <div
+      class="mx-auto flex h-14 max-w-[1800px] items-center justify-between gap-4 px-4 sm:px-6 md:h-16 lg:px-10"
+    >
+      <a
+        href={homeHref}
+        class="group flex shrink-0 items-center gap-0.5 no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+        aria-label={nav.homeAria}
+      >
+        <span
+          class="font-mono text-[0.8125rem] font-medium tracking-[0.06em] text-ink md:text-[0.875rem]"
+        >
+          <span class="text-accent">&gt;</span>
+          <span class="transition-colors group-hover:text-ink"> dev.portfolio</span>
+          <span class="text-accent animate-[blink_1s_step-end_infinite]" aria-hidden="true">_</span>
+        </span>
+      </a>
 
-  <div class="hidden md:flex items-center gap-7">
-    <a
-      href={`${homeHref}#${sectionIds.stack}`}
-      class="nav-link font-mono text-[11px] text-muted tracking-widest uppercase hover:text-ink transition-colors no-underline"
-    >
-      {nav.stack}
-    </a>
-    <a
-      href={`${homeHref}#${sectionIds.projects}`}
-      class="nav-link font-mono text-[11px] text-muted tracking-widest uppercase hover:text-ink transition-colors no-underline"
-    >
-      {nav.projects}
-    </a>
-    <a
-      href={`${homeHref}#${sectionIds.about}`}
-      class="nav-link font-mono text-[11px] text-muted tracking-widest uppercase hover:text-ink transition-colors no-underline"
-    >
-      {nav.about}
-    </a>
+      <div class="nav-pill hidden items-center gap-0.5 rounded-full border border-black/[0.08] bg-paper/60 px-1 py-1 md:flex">
+        {
+          links.map(({ href, label }) => (
+            <a
+              href={href}
+              class="nav-pill-link relative rounded-full px-3.5 py-2 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-muted no-underline transition-colors hover:text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+              data-nav-link
+              data-hover
+            >
+              {label}
+            </a>
+          ))
+        }
+      </div>
+
+        <div class="hidden h-6 w-px bg-black/10 lg:block" aria-hidden="true"></div>
+
+        <div class="hidden items-center gap-1.5 lg:flex">
+          <a href={me.github} target="_blank" rel="noopener noreferrer" class="p-2 text-muted transition-colors hover:text-ink" aria-label="GitHub" data-hover>
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+          </a>
+          <a href={me.linkedin} target="_blank" rel="noopener noreferrer" class="p-2 text-muted transition-colors hover:text-ink" aria-label="LinkedIn" data-hover>
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer" class="p-2 text-muted transition-colors hover:text-ink" aria-label="Instagram" data-hover>
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </a>
+          <a href={me.twitter} target="_blank" rel="noopener noreferrer" class="p-2 text-muted transition-colors hover:text-ink" aria-label="X (Twitter)" data-hover>
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg>
+          </a>
+        </div>
+
+        <a
+          href={`${homeHref}#${sectionIds.contact}`}
+          class="hidden font-mono text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-ink no-underline sm:inline-flex sm:items-center sm:rounded-full sm:border sm:border-ink sm:px-4 sm:py-2 sm:transition-colors sm:hover:bg-ink sm:hover:text-paper md:text-[0.75rem]"
+          data-hover
+        >
+          {nav.contact}
+        </a>
+
+        <button
+          type="button"
+          id="nav-mobile-open"
+          class="inline-flex h-10 w-10 flex-col items-center justify-center gap-[5px] rounded-md border border-black/[0.1] bg-paper/90 text-ink md:hidden"
+          aria-expanded="false"
+          aria-controls="nav-mobile-dialog"
+          aria-label={nav.openMenuAria}
+        >
+          <span class="block h-px w-[18px] bg-ink" aria-hidden="true"></span>
+          <span class="block h-px w-[18px] bg-ink" aria-hidden="true"></span>
+          <span class="block h-px w-[18px] bg-ink" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<dialog id="nav-mobile-dialog" class="nav-mobile-dialog" aria-labelledby="nav-mobile-title">
+  <div class="flex h-full flex-col">
+    <div class="flex items-center justify-between border-b border-black/10 px-5 py-4">
+      <p id="nav-mobile-title" class="font-mono text-[0.625rem] font-medium uppercase tracking-[0.2em] text-muted">
+        {nav.homeAria}
+      </p>
+      <form method="dialog">
+        <button
+          type="submit"
+          class="font-mono text-[0.6875rem] font-medium uppercase tracking-wider text-ink underline decoration-black/20 decoration-1 underline-offset-4 hover:decoration-accent"
+        >
+          {nav.closeMenu}
+        </button>
+      </form>
+    </div>
+    <nav class="flex flex-1 flex-col gap-1 p-4" aria-label="Mobile">
+      {
+        links.map(({ href, label }) => (
+          <a
+            href={href}
+            class="rounded-lg px-4 py-3.5 font-mono text-[0.8125rem] font-medium uppercase tracking-[0.12em] text-ink no-underline transition-colors hover:bg-black/[0.04]"
+            data-hover
+          >
+            {label}
+          </a>
+        ))
+      }
+      <a
+        href={`${homeHref}#${sectionIds.contact}`}
+        class="mt-2 rounded-lg bg-ink px-4 py-3.5 text-center font-mono text-[0.8125rem] font-medium uppercase tracking-[0.12em] text-paper no-underline transition-colors hover:bg-accent hover:text-ink"
+        data-hover
+      >
+        {nav.contact}
+      </a>
+
+      <div class="mt-auto flex items-center justify-center gap-4 border-t border-black/10 pt-8 pb-4">
+        <a href={me.github} target="_blank" rel="noopener noreferrer" class="p-2 text-muted hover:text-ink" aria-label="GitHub">
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+        <a href={me.linkedin} target="_blank" rel="noopener noreferrer" class="p-2 text-muted hover:text-ink" aria-label="LinkedIn">
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        </a>
+        <a href={me.twitter} target="_blank" rel="noopener noreferrer" class="p-2 text-muted hover:text-ink" aria-label="X (Twitter)">
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg>
+        </a>
+      </div>
+    </nav>
   </div>
+</dialog>
 
-  <div class="flex items-center gap-3 shrink-0">
-    <a
-      href={switchHref}
-      class="font-mono text-[11px] text-muted tracking-widest uppercase no-underline border border-[rgba(10,10,10,0.15)] px-3 py-1.5 rounded-[2px] hover:border-accent hover:text-ink transition-colors"
-      hreflang={switchLocale}
-      lang={switchLocale}
-    >
-      {nav.langSwitch}
-    </a>
-    <a
-      href={`${homeHref}#${sectionIds.contact}`}
-      class="font-mono text-[12px] bg-ink text-paper px-5 py-2 rounded-[2px] no-underline tracking-wider hover:bg-accent hover:text-ink transition-all duration-200"
-      data-hover
-    >
-      {nav.contact}
-    </a>
-  </div>
-</nav>
-
-<div class="h-16"></div>
+<div class="h-14 md:h-16" aria-hidden="true"></div>
 
 <script>
   const navbar = document.getElementById('navbar');
+  const openBtn = document.getElementById('nav-mobile-open');
+  const dialog = document.getElementById('nav-mobile-dialog');
+  const navLinks = document.querySelectorAll('[data-nav-link]');
+  const cursorBlink = document.querySelector('.animate-\\[blink_1s_step-end_infinite\\]');
+
+  // --- Scroll Scrolled Class ---
   window.addEventListener('scroll', () => {
     if (!navbar) return;
-    if (window.scrollY > 20) {
-      navbar.style.borderBottom = '1px solid rgba(10,10,10,0.12)';
-      navbar.style.background = 'rgba(245,243,239,0.92)';
-      navbar.style.setProperty('backdrop-filter', 'blur(12px)');
-      navbar.style.setProperty('-webkit-backdrop-filter', 'blur(12px)');
-    } else {
-      navbar.style.borderBottom = '1px solid transparent';
-      navbar.style.background = 'transparent';
-      navbar.style.removeProperty('backdrop-filter');
-      navbar.style.removeProperty('-webkit-backdrop-filter');
+    navbar.classList.toggle('nav--scrolled', window.scrollY > 12);
+  });
+
+  // --- Scroll Spy Logic ---
+  const sections = Object.values(sectionIds).map(id => document.getElementById(id)).filter(Boolean);
+  const observerOptions = { rootMargin: '-20% 0px -70% 0px', threshold: 0 };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (href?.endsWith(`#${id}`)) {
+            link.classList.add('nav-pill-link--active');
+          } else {
+            link.classList.remove('nav-pill-link--active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sections.forEach(s => s && observer.observe(s));
+
+  // --- Logo Interaction ---
+  const logoLink = document.querySelector('a[href="' + homeHref + '"]');
+  logoLink?.addEventListener('mouseenter', () => {
+    if (cursorBlink) cursorBlink.classList.replace('animate-[blink_1s_step-end_infinite]', 'animate-[blink_0.2s_step-end_infinite]');
+  });
+  logoLink?.addEventListener('mouseleave', () => {
+    if (cursorBlink) cursorBlink.classList.replace('animate-[blink_0.2s_step-end_infinite]', 'animate-[blink_1s_step-end_infinite]');
+  });
+
+  // --- Mobile Dialog ---
+  openBtn?.addEventListener('click', () => {
+    if (!dialog || !(dialog instanceof HTMLDialogElement)) return;
+    dialog.showModal();
+    openBtn.setAttribute('aria-expanded', 'true');
+  });
+
+  dialog?.addEventListener('close', () => {
+    openBtn?.setAttribute('aria-expanded', 'false');
+  });
+
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog && dialog instanceof HTMLDialogElement) {
+      dialog.close();
     }
+  });
+
+  dialog?.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => {
+      if (dialog instanceof HTMLDialogElement) dialog.close();
+    });
   });
 </script>

@@ -12,40 +12,48 @@ const { sectionId, about, bio } = Astro.props;
 const aboutTitleHtml = about.titleLines.join('<br />');
 ---
 
-<section id={sectionId} style="display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--border);">
-  <div style="padding:70px 40px; border-right:1px solid var(--border);">
+<section
+  id={sectionId}
+  class="flex flex-col md:grid md:grid-cols-2 border-b border-[var(--border)]"
+>
+  <div class="p-10 sm:p-14 md:p-[4.375rem_2.5rem] border-b md:border-b-0 md:border-r border-[var(--border)]">
     <div
-      style="font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:20px;"
+      class="font-mono text-[0.6875rem] text-muted tracking-[0.12em] uppercase mb-5"
     >
       {about.sectionNum}
     </div>
     <h2
       data-animate
-      style="font-family:'Syne',sans-serif; font-size:46px; font-weight:800; letter-spacing:-.03em; line-height:1.05; margin-bottom:28px;"
+      class="font-display text-[2.5rem] sm:text-[2.875rem] font-extrabold tracking-[-0.03em] leading-[1.05] mb-7"
       set:html={aboutTitleHtml}
     />
-    <p style="font-family:'DM Mono',monospace; font-size:13px; color:var(--muted); line-height:1.9; white-space:pre-line;">
+    <p class="font-mono text-[0.8125rem] text-muted leading-[1.9] white-space-pre-line">
       {bio}
     </p>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:40px; border-top:1px solid var(--border);">
+    <div class="grid grid-cols-2 gap-0 mt-10 border-t border-[var(--border)]">
       {about.values.map((item, i) => (
         <div
-          style={`padding:18px 20px; ${i % 2 === 0 ? 'border-right:1px solid var(--border);' : ''} ${i < 2 ? 'border-bottom:1px solid var(--border);' : ''}`}
+          class:list={[
+            'p-4.5 sm:p-5',
+            i % 2 === 0 ? 'border-r border-[var(--border)]' : '',
+            i < 2 ? 'border-bottom border-[var(--border)]' : ''
+          ]}
+          style={i < 2 ? 'border-bottom: 1px solid var(--border);' : ''}
         >
           <div
-            style="font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-bottom:6px;"
+            class="font-mono text-[0.625rem] text-muted tracking-[0.1em] uppercase mb-1.5"
           >
             {item.label}
           </div>
-          <div style="font-family:'DM Mono',monospace; font-size:13px; color:var(--ink);">{item.value}</div>
+          <div class="font-mono text-[0.8125rem] text-ink">{item.value}</div>
         </div>
       ))}
     </div>
   </div>
 
-  <div style="padding:40px; background:var(--ink); display:flex; align-items:center;">
-    <div style="width:100%;">
+  <div class="p-10 sm:p-14 md:p-10 bg-ink flex items-center min-h-[400px]">
+    <div class="w-full">
       <Terminal client:visible />
     </div>
   </div>

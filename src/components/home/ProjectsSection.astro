@@ -11,20 +11,20 @@ interface Props {
 const { sectionId, projects, items, githubUrl } = Astro.props;
 ---
 
-<section id={sectionId} style="border-bottom:1px solid var(--border);">
-  <div style="display:grid; grid-template-columns:280px 1fr;">
-    <div style="padding:60px 40px; border-right:1px solid var(--border); display:flex; flex-direction:column; justify-content:space-between;">
+<section id={sectionId} class="border-b border-[var(--border)]">
+  <div class="flex flex-col lg:grid lg:grid-cols-[17.5rem_1fr]">
+    <div class="p-10 sm:p-14 lg:p-[3.75rem_2.5rem] border-b lg:border-b-0 lg:border-r border-[var(--border)] flex flex-col justify-between">
       <div>
         <div
-          style="font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:.12em; text-transform:uppercase; margin-bottom:16px;"
+          class="font-mono text-[0.6875rem] text-muted tracking-[0.12em] uppercase mb-4"
         >
           {projects.sectionNum}
         </div>
         <div
-          style="font-family:'Syne',sans-serif; font-size:52px; font-weight:800; line-height:.95; letter-spacing:-.03em;"
+          class="font-display text-[2.75rem] sm:text-[3.25rem] font-extrabold leading-[0.95] tracking-[-0.03em]"
           set:html={projects.sidebarTitleHtml}
         />
-        <p style="font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); line-height:1.85; margin-top:20px;">
+        <p class="font-mono text-[0.75rem] text-muted leading-[1.85] mt-5">
           {projects.sidebarLead}
         </p>
       </div>
@@ -32,9 +32,7 @@ const { sectionId, projects, items, githubUrl } = Astro.props;
         href={githubUrl}
         target="_blank"
         rel="noopener noreferrer"
-        style="margin-top:32px; display:block; text-align:center; background:var(--ink); color:var(--paper); padding:14px 20px; font-family:'DM Mono',monospace; font-size:13px; border-radius:2px; text-decoration:none; letter-spacing:.05em; transition:all .2s;"
-        onmouseover="this.style.background='var(--accent)'; this.style.color='var(--ink)';"
-        onmouseout="this.style.background='var(--ink)'; this.style.color='var(--paper)';"
+        class="mt-8 block text-center bg-ink text-paper px-5 py-3.5 font-mono text-[0.8125rem] rounded-[0.125rem] no-underline tracking-[0.05em] transition-all duration-200 hover:bg-accent hover:text-ink cursor-none"
         data-hover
       >
         {projects.sidebarCta}
@@ -45,21 +43,27 @@ const { sectionId, projects, items, githubUrl } = Astro.props;
       {items.map((p, i) => (
         <a
           href={p.url}
-          style={`display:grid; grid-template-columns:1fr auto; align-items:start; gap:20px; padding:32px 40px; ${i < items.length - 1 ? 'border-bottom:1px solid var(--border);' : ''} text-decoration:none; color:inherit; transition:background .15s; group`}
-          onmouseover="this.style.background='rgba(0,200,150,0.04)'; this.querySelector('.arrow').style.color='var(--accent)'; this.querySelector('.arrow').style.transform='translate(3px,-3px)';"
-          onmouseout="this.style.background='transparent'; this.querySelector('.arrow').style.color='var(--muted)'; this.querySelector('.arrow').style.transform='none';"
+          class:list={[
+            'grid grid-cols-[1fr_auto] items-start gap-5 p-8 sm:px-10 no-underline color-inherit transition-colors duration-150 hover:bg-accent/4 cursor-none group',
+            i < items.length - 1 ? 'border-b border-[var(--border)]' : ''
+          ]}
           data-hover
         >
           <div>
-            <div style="font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); margin-bottom:8px;">{p.num}</div>
-            <h3 style="font-family:'Syne',sans-serif; font-size:24px; font-weight:700; letter-spacing:-.02em; margin-bottom:8px;">
+            <div class="font-mono text-[0.6875rem] text-muted mb-2">{p.num}</div>
+            <h3 class="font-display text-[1.5rem] font-bold tracking-[-0.02em] mb-2">
               {p.name}
             </h3>
-            <p style="font-family:'DM Mono',monospace; font-size:12px; color:var(--muted); line-height:1.75;">{p.desc}</p>
-            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:12px;">
+            <p class="font-mono text-[0.75rem] text-muted leading-[1.75]">{p.desc}</p>
+            <div class="flex gap-1.5 flex-wrap mt-3">
               {p.tags.map((tag) => (
                 <span
-                  style={`font-family:'DM Mono',monospace; font-size:10px; padding:4px 10px; border-radius:2px; letter-spacing:.05em; border:1px solid ${p.accentTags.includes(tag) ? 'var(--accent)' : 'var(--border)'}; color:${p.accentTags.includes(tag) ? 'var(--accent)' : 'var(--muted)'};`}
+                  class:list={[
+                    'font-mono text-[0.625rem] px-2.5 py-1 rounded-[0.125rem] tracking-[0.05em] border transition-colors',
+                    p.accentTags.includes(tag) 
+                      ? 'border-accent text-accent' 
+                      : 'border-[var(--border)] text-muted'
+                  ]}
                 >
                   {tag}
                 </span>
@@ -67,8 +71,7 @@ const { sectionId, projects, items, githubUrl } = Astro.props;
             </div>
           </div>
           <div
-            class="arrow"
-            style="font-size:22px; color:var(--muted); margin-top:4px; transition:color .2s, transform .2s;"
+            class="arrow text-[1.375rem] text-muted mt-1 transition-all duration-200 group-hover:text-accent group-hover:translate-x-1 group-hover:-translate-y-1"
           >
             ↗
           </div>

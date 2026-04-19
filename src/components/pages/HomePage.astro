@@ -41,8 +41,17 @@ const hrefEn = new URL('/en/', SITE.url).href;
     { hreflang: 'x-default', href: hrefEs },
   ]}
 >
-  <Nav locale={copy.locale} nav={nav} sectionIds={sectionIds} />
-  <HomeHero copy={{ ME, hero: copy.hero, sectionIds, srOnly: copy.srOnly }} />
+  <Nav locale={copy.locale} nav={nav} sectionIds={sectionIds} me={ME} />
+  <HomeHero
+    copy={{
+      ME,
+      hero: copy.hero,
+      sectionIds,
+      srOnly: copy.srOnly,
+      personJobTitle: copy.personJobTitle,
+      about: copy.about,
+    }}
+  />
   <TechMarquee items={MARQUEE_ITEMS} />
   <StackSection sectionId={sectionIds.stack} stack={stack} columns={STACK} />
   <ProjectsSection

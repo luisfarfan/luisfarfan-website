@@ -1,10 +1,15 @@
 /**
  * Copy for the one-page portfolio. Astro i18n serves `/` (es) and `/en/`.
  */
+export type TechItem = {
+  name: string;
+  experience: string;
+};
+
 export type StackColumn = {
   title: string;
   color: 'accent' | 'highlight';
-  items: string[];
+  items: TechItem[];
 };
 
 export type ProjectItem = {
@@ -38,7 +43,8 @@ export type HomeCopy = {
     projects: string;
     about: string;
     contact: string;
-    langSwitch: string;
+    openMenuAria: string;
+    closeMenu: string;
   };
   srOnly: { heroCanvas: string };
   ME: {
@@ -66,8 +72,14 @@ export type HomeCopy = {
     statsYears: string;
     statsProjects: string;
     statsAi: string;
+    focus: string;
+    philosophy: string;
+    archTitle: string;
+    archItems: string[];
+    aiTitle: string;
   };
   stack: { sectionNum: string; title: string };
+// ... (omitted text for brevity, applying to the whole file)
   projects: {
     sectionNum: string;
     /** Trusted static HTML (author-controlled) for the big stacked title */
@@ -95,13 +107,13 @@ export const homeEs: HomeCopy = {
   htmlLang: 'es',
   openGraphLocale: 'es_PE',
   meta: {
-    title: 'Tu Nombre — Senior Full Stack Developer & AI Engineer',
+    title: 'Luis Farfan — Senior Full Stack Developer & AI Engineer',
     description:
       'Senior Full Stack Developer con 12 años de experiencia en Backend, Frontend, DevOps y Serverless. Especializado en IA: RAG, Agents, LLMs, embeddings y pipelines inteligentes.',
     keywords:
       'full stack developer, senior developer, devops, backend, frontend, serverless, inteligencia artificial, AI engineer, RAG, LLM, Peru, Lima',
   },
-  personJobTitle: 'Senior Full Stack Developer',
+  personJobTitle: 'Senior Software Architect · Cloud & AI Expert',
   sectionIds: {
     stack: 'stack',
     projects: 'proyectos',
@@ -114,14 +126,15 @@ export const homeEs: HomeCopy = {
     projects: 'Proyectos IA',
     about: 'Sobre mí',
     contact: 'Contactar →',
-    langSwitch: 'EN',
+    openMenuAria: 'Abrir menú de navegación',
+    closeMenu: 'Cerrar',
   },
   srOnly: {
     heroCanvas:
-      'Animación decorativa de palabras clave en canvas. El título principal y la descripción del perfil están en la columna izquierda.',
+      'Nombre en canvas: cada letra es un mosaico de microcaracteres estilo Matrix (monospace); refuerzo tenue del nombre completo; resalte circular y celdas que se apartan ligeramente del puntero; clic = pulso y glitch breve. El encabezado para SEO está en el h1 oculto arriba.',
   },
   ME: {
-    name: 'Tu Nombre',
+    name: 'Luis Farfan',
     tagline: 'Senior Full Stack Developer & AI Engineer',
     years: 12,
     projectCount: 40,
@@ -143,27 +156,53 @@ embeddings, vectores, agentes, RAG y fine-tuning. Construyo productos que piensa
     {
       title: 'Frontend',
       color: 'accent',
-      items: ['React / Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'WebGL / Canvas'],
+      items: [
+        { name: 'React / Next.js', experience: 'Mi tecnología principal para interfaces premium. He construido desde dashboards complejos hasta sitios altamente interactivos como este, enfocándome en performance, animaciones fluidas y accesibilidad.' },
+        { name: 'TypeScript', experience: 'Indispensable en mi flujo de trabajo. Me permite escalar aplicaciones de gran tamaño con seguridad, reduciendo errores en tiempo de ejecución y mejorando la mantenibilidad del código a largo plazo.' },
+        { name: 'Tailwind CSS', experience: 'Lo uso para iterar rápido sin sacrificar la calidad del diseño. Me permite crear sistemas de diseño consistentes y responsivos con una precisión de píxel.' },
+        { name: 'Angular', experience: 'Me inicié con Typescript y al mismo tiempo conocí Angular en su versión alfa. He visto su evolución completa, usándolo en aplicaciones empresariales robustas y críticas.' },
+        { name: 'WebGL / Canvas', experience: 'Donde la programación se vuelve arte. Uso Canvas para experiencias como la cabecera de este sitio, creando efectos visuales que el CSS estándar no puede alcanzar.' },
+      ],
     },
     {
       title: 'Backend',
       color: 'accent',
-      items: ['Node.js / Bun', 'Python / FastAPI', 'PostgreSQL', 'Redis', 'GraphQL'],
+      items: [
+        { name: 'Node.js / Bun', experience: 'Mi motor favorito para el lado del servidor. Experto en construir APIs de alto rendimiento y sistemas en tiempo real altamente concurrentes.' },
+        { name: 'Python / FastAPI', experience: 'Mi elección principal para todo lo relacionado con IA y procesamiento de datos. FastAPI me permite desplegar modelos y servicios con una velocidad increíble.' },
+        { name: 'PostgreSQL', experience: 'Mi base de datos relacional de confianza. Dominio de optimización de queries, diseño de esquemas complejos y extensiones como pgvector para IA.' },
+        { name: 'Redis', experience: 'Utilizado para caching de alta velocidad, colas de mensajes y gestión de estados de sesión en aplicaciones distribuidas.' },
+        { name: 'GraphQL', experience: 'Implementación de capas de datos eficientes que permiten a los clientes front-end obtener exactamente lo que necesitan, optimizando el ancho de banda y la velocidad.' },
+      ],
     },
     {
       title: 'DevOps',
       color: 'accent',
-      items: ['Docker / K8s', 'Terraform', 'GitHub Actions', 'Prometheus', 'Datadog'],
+      items: [
+        { name: 'Docker / K8s', experience: 'Contenerización y orquestación para asegurar que el software corra igual en mi máquina que en producción. Experiencia en clusters escalables.' },
+        { name: 'Terraform', experience: 'Infraestructura como código. Mantengo mis entornos de nube de forma reproducible, versionada y segura.' },
+        { name: 'GitHub Actions', experience: 'Automatización total del ciclo de vida del software, desde tests automáticos hasta despliegues continuos en múltiples entornos.' },
+        { name: 'Datadog', experience: 'Observabilidad crítica para sistemas senior. Monitoreo de logs, métricas y trazas para detectar problemas antes de que afecten al usuario.' },
+      ],
     },
     {
-      title: 'Serverless',
+      title: 'Serverless / Cloud',
       color: 'accent',
-      items: ['AWS Lambda', 'Vercel Edge', 'Cloudflare Workers', 'SQS / SNS', 'Step Functions'],
+      items: [
+        { name: 'AWS Lambda', experience: 'Especialista en arquitecturas orientadas a eventos. He diseñado sistemas que procesan millones de peticiones sin gestionar un solo servidor.' },
+        { name: 'Cloudflare Workers', experience: 'Ejecución en el borde (edge) para latencia ultra-baja. Ideal para personalización de contenido y seguridad global.' },
+        { name: 'Step Functions', experience: 'Orquestación de flujos de trabajo complejos y resilientes en AWS, manejando retries y estados de forma nativa.' },
+      ],
     },
     {
       title: 'IA — especialidad',
       color: 'highlight',
-      items: ['OpenAI / Claude API', 'LangChain / LlamaIndex', 'RAG · Embeddings', 'Fine-tuning', 'MCP · Agents'],
+      items: [
+        { name: 'Autonomous Agents', experience: 'Mi foco actual más fuerte. Desarrollo agentes capaces de razonar, usar herramientas y ejecutar tareas complejas de forma autónoma.' },
+        { name: 'MCP (Model Context Protocol)', experience: 'Pionero en la implementación de MCP para conectar LLMs con datos y herramientas de forma estandarizada y segura.' },
+        { name: 'RAG · Embeddings', experience: 'Arquitecturas de recuperación aumentada para que las IAs hablen con tus datos propios, con precisión y sin alucinaciones.' },
+        { name: 'Fine-tuning', experience: 'Ajuste fino de modelos para casos de uso específicos donde las instrucciones generales no son suficientes. Especializado en dominios verticales.' },
+      ],
     },
   ],
   PROJECTS: [
@@ -219,14 +258,18 @@ embeddings, vectores, agentes, RAG y fine-tuning. Construyo productos que piensa
   ],
   hero: {
     kickerSuffix: 'años',
-    subtitle: `Arquitecto de software con dominio end-to-end.<br>
-Backend · Frontend · DevOps · Serverless · <strong style="color:var(--ink);">IA</strong>.<br>
-Últimamente construyendo el futuro con LLMs y agentes.`,
+    subtitle: `Arquitecto Senior con 12 años dominando el stack completo.<br>
+Experto en <strong style="color:var(--ink);">Arquitectura, Patrones, Serverless y Cloud</strong>. Este último año, mi foco es la IA Generativa: construyo agentes autónomos y sistemas RAG.`,
     ctaProjects: 'Ver proyectos ↓',
     ctaCv: 'Descargar CV',
     statsYears: 'Años exp.',
     statsProjects: 'Proyectos',
     statsAi: 'Proyectos IA',
+    focus: 'Agentes Autónomos · MCP · RAG',
+    philosophy: 'Construyendo sistemas autónomos que piensan y proyectan escalabilidad real.',
+    archTitle: 'Cimientos de Arquitectura',
+    archItems: ['Architecture & Design Patterns', 'Serverless', 'Cloud Native', 'Distributed Systems'],
+    aiTitle: 'Especialidad IA',
   },
   stack: { sectionNum: '01 —', title: 'Stack completo' },
   projects: {
@@ -262,13 +305,13 @@ export const homeEn: HomeCopy = {
   htmlLang: 'en',
   openGraphLocale: 'en_US',
   meta: {
-    title: 'Your Name — Senior Full Stack Developer & AI Engineer',
+    title: 'Luis Farfan — Senior Full Stack Developer & AI Engineer',
     description:
       'Senior full stack engineer with 12 years across backend, frontend, DevOps, and serverless. AI focus: RAG, agents, LLMs, embeddings, and production-grade ML pipelines.',
     keywords:
       'full stack developer, senior engineer, devops, backend, frontend, serverless, artificial intelligence, AI engineer, RAG, LLM, Peru, Lima',
   },
-  personJobTitle: 'Senior Full Stack Developer',
+  personJobTitle: 'Senior Software Architect · Cloud & AI Expert',
   sectionIds: {
     stack: 'stack',
     projects: 'projects',
@@ -281,14 +324,15 @@ export const homeEn: HomeCopy = {
     projects: 'AI projects',
     about: 'About',
     contact: 'Contact →',
-    langSwitch: 'ES',
+    openMenuAria: 'Open navigation menu',
+    closeMenu: 'Close',
   },
   srOnly: {
     heroCanvas:
-      'Decorative keyword animation on canvas. The main heading and profile description are in the left column.',
+      'Name on canvas: each letter is a Matrix-style micro-glyph mosaic (monospace); faint full-name underlay; circular highlight and cells nudge slightly from the pointer; click = pulse and short glitch. The SEO heading is in the screen-reader-only h1 above.',
   },
   ME: {
-    name: 'Your Name',
+    name: 'Luis Farfan',
     tagline: 'Senior Full Stack Developer & AI Engineer',
     years: 12,
     projectCount: 40,
@@ -310,27 +354,53 @@ agents, RAG, and fine-tuning. I build products that think.`,
     {
       title: 'Frontend',
       color: 'accent',
-      items: ['React / Next.js', 'TypeScript', 'Tailwind CSS', 'Vue.js', 'WebGL / Canvas'],
+      items: [
+        { name: 'React / Next.js', experience: 'My primary stack for premium interfaces. I build everything from complex dashboards to highly interactive sites like this one, focusing on performance, smooth animations, and accessibility.' },
+        { name: 'TypeScript', experience: 'Indispensable in my workflow. It allows me to scale large applications safely, reducing runtime errors and improving long-term maintainability.' },
+        { name: 'Tailwind CSS', experience: "I use it to iterate fast without sacrificing design quality. It allows me to create consistent, responsive design systems with pixel-perfect precision." },
+        { name: 'Angular', experience: 'I started with TypeScript and met Angular in its alpha version. I have seen its full evolution, using it in robust and critical enterprise applications.' },
+        { name: 'WebGL / Canvas', experience: "Where programming meets art. I use Canvas for experiences like this site's header, creating visual effects that standard CSS cannot reach." },
+      ],
     },
     {
       title: 'Backend',
       color: 'accent',
-      items: ['Node.js / Bun', 'Python / FastAPI', 'PostgreSQL', 'Redis', 'GraphQL'],
+      items: [
+        { name: 'Node.js / Bun', experience: 'My favorite engine for the server side. Expert in building high-performance APIs and highly concurrent real-time systems.' },
+        { name: 'Python / FastAPI', experience: 'My main choice for everything AI and data processing. FastAPI allows me to deploy models and services with incredible speed.' },
+        { name: 'PostgreSQL', experience: 'My trusted relational database. Mastery of query optimization, complex schema design, and extensions like pgvector for AI.' },
+        { name: 'Redis', experience: 'Used for high-speed caching, message queues, and session state management in distributed applications.' },
+        { name: 'GraphQL', experience: 'Implementation of efficient data layers that allow frontend clients to get exactly what they need, optimizing bandwidth and speed.' },
+      ],
     },
     {
       title: 'DevOps',
       color: 'accent',
-      items: ['Docker / K8s', 'Terraform', 'GitHub Actions', 'Prometheus', 'Datadog'],
+      items: [
+        { name: 'Docker / K8s', experience: 'Containerization and orchestration to ensure software runs the same on my machine as in production. Experience with scalable clusters.' },
+        { name: 'Terraform', experience: 'Infrastructure as Code. I maintain my cloud environments in a reproducible, versioned, and secure way.' },
+        { name: 'GitHub Actions', experience: 'Full automation of the software lifecycle, from automated tests to continuous deployments in multiple environments.' },
+        { name: 'Datadog', experience: 'Critical observability for senior systems. Monitoring logs, metrics, and traces to detect issues before they affect the user.' },
+      ],
     },
     {
-      title: 'Serverless',
+      title: 'Serverless / Cloud',
       color: 'accent',
-      items: ['AWS Lambda', 'Vercel Edge', 'Cloudflare Workers', 'SQS / SNS', 'Step Functions'],
+      items: [
+        { name: 'AWS Lambda', experience: 'Specialist in event-driven architectures. I have designed systems that process millions of requests without managing a single server.' },
+        { name: 'Cloudflare Workers', experience: 'Edge execution for ultra-low latency. Ideal for content personalization and global security.' },
+        { name: 'Step Functions', experience: 'Orchestration of complex and resilient workflows in AWS, handling retries and states natively.' },
+      ],
     },
     {
       title: 'AI — focus',
       color: 'highlight',
-      items: ['OpenAI / Claude API', 'LangChain / LlamaIndex', 'RAG · Embeddings', 'Fine-tuning', 'MCP · Agents'],
+      items: [
+        { name: 'Autonomous Agents', experience: 'My strongest current focus. I develop agents capable of reasoning, using tools, and executing complex tasks autonomously.' },
+        { name: 'MCP (Model Context Protocol)', experience: 'Pioneer in implementing MCP to connect LLMs with data and tools in a standardized and secure way.' },
+        { name: 'RAG · Embeddings', experience: 'Retrieval-augmented architectures to make AI speak with your own data, accurately and without hallucinations.' },
+        { name: 'Fine-tuning', experience: 'Fine-tuning base models for specific use cases where general instructions are not enough. Specialized in vertical domains.' },
+      ],
     },
   ],
   PROJECTS: [
@@ -370,14 +440,18 @@ agents, RAG, and fine-tuning. I build products that think.`,
   MARQUEE_ITEMS: homeEs.MARQUEE_ITEMS,
   hero: {
     kickerSuffix: 'yrs',
-    subtitle: `Software architect with end-to-end ownership.<br>
-Backend · Frontend · DevOps · Serverless · <strong style="color:var(--ink);">AI</strong>.<br>
-Recently building the future with LLMs and agents.`,
+    subtitle: `Senior Architect with 12 years of end-to-end mastery.<br>
+Expert in <strong style="color:var(--ink);">software architecture, design patterns, and Cloud Serverless</strong> solutions. Lately focused on Generative AI: engineering autonomous agents and RAG systems.`,
     ctaProjects: 'View projects ↓',
     ctaCv: 'Download CV',
     statsYears: 'Years exp.',
     statsProjects: 'Projects',
     statsAi: 'AI projects',
+    focus: 'Autonomous Agents · MCP · RAG',
+    philosophy: 'Building autonomous systems that think and scale with architectural rigor.',
+    archTitle: 'Architecture Foundations',
+    archItems: ['Architecture & Design Patterns', 'Serverless', 'Cloud Native', 'Distributed Systems'],
+    aiTitle: 'AI Specialization',
   },
   stack: { sectionNum: '01 —', title: 'Full stack' },
   projects: {

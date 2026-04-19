@@ -10,26 +10,27 @@ interface Props {
 const { sectionId, footer, me } = Astro.props;
 ---
 
-<section id={sectionId} style="padding:90px 40px; text-align:center; background:var(--ink);">
+<section
+  id={sectionId}
+  class="py-24 px-6 sm:px-10 text-center bg-ink"
+>
   <p
-    style="font-family:'DM Mono',monospace; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:.15em; text-transform:uppercase; margin-bottom:20px;"
+    class="font-mono text-[0.6875rem] text-white/30 tracking-[0.15em] uppercase mb-5"
   >
     {footer.kicker}
   </p>
   <h2
-    style="font-family:'Syne',sans-serif; font-size:clamp(40px,7vw,72px); font-weight:800; color:var(--paper); letter-spacing:-.04em; line-height:.95; margin-bottom:16px;"
+    class="font-display text-[clamp(2.5rem,7vw,4.5rem)] font-extrabold text-paper tracking-[-0.04em] leading-[0.95] mb-4"
     set:html={footer.titleHtml}
   />
-  <p style="font-family:'DM Mono',monospace; font-size:13px; color:rgba(255,255,255,0.35); margin-bottom:36px;">
+  <p class="font-mono text-[0.8125rem] text-white/35 mb-9">
     {footer.subtitle}
   </p>
 
-  <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap;">
+  <div class="flex flex-wrap gap-3.5 justify-center">
     <a
       href={`mailto:${me.email}`}
-      style="font-family:'DM Mono',monospace; font-size:13px; padding:14px 32px; border-radius:2px; background:var(--accent); color:var(--ink); text-decoration:none; letter-spacing:.05em; transition:opacity .2s;"
-      onmouseover="this.style.opacity='.85';"
-      onmouseout="this.style.opacity='1';"
+      class="font-mono text-[0.8125rem] px-8 py-3.5 rounded-[0.125rem] bg-accent text-ink no-underline tracking-[0.05em] transition-opacity duration-200 hover:opacity-85 cursor-none"
       data-hover
     >
       {me.email}
@@ -38,9 +39,7 @@ const { sectionId, footer, me } = Astro.props;
       href={me.linkedin}
       target="_blank"
       rel="noopener noreferrer"
-      style="font-family:'DM Mono',monospace; font-size:13px; padding:14px 32px; border-radius:2px; border:1px solid rgba(255,255,255,0.18); color:var(--paper); text-decoration:none; letter-spacing:.05em; transition:border-color .2s;"
-      onmouseover="this.style.borderColor='rgba(255,255,255,0.5)';"
-      onmouseout="this.style.borderColor='rgba(255,255,255,0.18)';"
+      class="font-mono text-[0.8125rem] px-8 py-3.5 rounded-[0.125rem] border border-white/18 text-paper no-underline tracking-[0.05em] transition-colors duration-200 hover:border-white/50 cursor-none"
       data-hover
     >
       LinkedIn →
@@ -48,7 +47,7 @@ const { sectionId, footer, me } = Astro.props;
   </div>
 
   <div
-    style="display:flex; gap:32px; justify-content:center; margin-top:52px; padding-top:32px; border-top:1px solid rgba(255,255,255,0.08);"
+    class="flex flex-wrap gap-8 justify-center mt-14 pt-8 border-t border-white/8"
   >
     {[
       { label: 'GitHub', href: me.github },
@@ -60,9 +59,7 @@ const { sectionId, footer, me } = Astro.props;
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
-        style="font-family:'DM Mono',monospace; font-size:11px; color:rgba(255,255,255,0.3); letter-spacing:.1em; text-transform:uppercase; text-decoration:none; transition:color .2s;"
-        onmouseover="this.style.color='rgba(255,255,255,0.8)';"
-        onmouseout="this.style.color='rgba(255,255,255,0.3)';"
+        class="font-mono text-[0.6875rem] text-white/30 tracking-[0.1em] uppercase no-underline transition-colors duration-200 hover:text-white/80"
         data-hover
       >
         {link.label}
@@ -70,7 +67,7 @@ const { sectionId, footer, me } = Astro.props;
     ))}
   </div>
 
-  <p style="font-family:'DM Mono',monospace; font-size:10px; color:rgba(255,255,255,0.15); margin-top:40px; letter-spacing:.08em;">
+  <p class="font-mono text-[0.625rem] text-white/15 mt-10 tracking-[0.08em]">
     © {new Date().getFullYear()}
     {me.name} · {footer.builtWith}
   </p>

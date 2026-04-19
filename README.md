@@ -98,7 +98,8 @@ portfolio/
 │   │   ├── pages/
 │   │   │   └── HomePage.astro — Orquesta layout + secciones
 │   │   ├── Nav.astro          — Navbar + idioma
-│   │   ├── PretextHero.tsx    — Canvas con @chenglou/pretext
+│   │   ├── HeroHeadlinePretext.tsx — Nombre en mosaico micro-Matrix (Syne + DM Mono) + puntero / clic
+│   │   ├── PretextHero.tsx    — Referencia / no montado en la home
 │   │   └── Terminal.tsx       — Terminal animada
 │   ├── layouts/
 │   │   └── BaseLayout.astro   — SEO completo + Schema.org
@@ -128,11 +129,18 @@ portfolio/
 - ✅ `lang="es"` correcto
 - ✅ Alt texts en imágenes y canvas
 
-## Pretext.js — cómo se usa
+## Hero canvas + Pretext en el repo
 
-El componente `PretextHero.tsx` usa `@chenglou/pretext` para medir texto
-y calcular line-breaks **sin tocar el DOM**. Esto permite que el texto fluya
-alrededor de la esfera animada a 60fps sin ningún reflow.
+`HeroHeadlinePretext.tsx` dibuja **`ME.name`** en canvas como **mosaico**: la
+silueta de cada macro-letra (Syne offscreen) se rellena con microcaracteres en
+**DM Mono** (por defecto la misma letra; katakana/números en sustituciones
+raras y en ráfagas de glitch al clic). Hay un **fantasma** muy tenue a línea
+completa, **resalte circular**, **repel** ligero de celdas y **clic** = pulso +
+glitch. Con `prefers-reduced-motion` el canvas queda estático tras el primer
+layout estable. El **h1** para SEO es **sr-only** (nombre + cargo).
+`@chenglou/pretext` se usa en `PretextHero.tsx`, no en este hero.
+
+### Pretext.js — API de referencia
 
 ```ts
 import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
