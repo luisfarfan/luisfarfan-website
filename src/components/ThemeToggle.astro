@@ -1,0 +1,59 @@
+---
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  class="group relative flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] bg-paper/60 transition-colors hover:border-accent hover:bg-paper dark:border-white/[0.08] dark:bg-white/5 dark:hover:bg-white/10"
+  aria-label="Toggle theme"
+  data-hover
+>
+  {/* Sun Icon */}
+  <svg
+    id="sun-icon"
+    class="h-[1.125rem] w-[1.125rem] text-muted transition-all duration-300 group-hover:text-accent dark:hidden"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+
+  {/* Moon Icon */}
+  <svg
+    id="moon-icon"
+    class="hidden h-[1.125rem] w-[1.125rem] text-muted transition-all duration-300 group-hover:text-accent dark:block"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    stroke-width="2"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+  </svg>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  
+  const handleToggle = () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    const newTheme = isDark ? 'light' : 'dark';
+    
+    document.documentElement.classList.toggle('dark');
+    localStorage.setItem('theme', newTheme);
+    
+    // Dispatch a custom event so other components (like the Particle Text) can react
+    window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
+  };
+
+  toggle?.addEventListener('click', handleToggle);
+</script>

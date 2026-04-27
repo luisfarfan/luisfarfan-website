@@ -19,6 +19,8 @@ export type ProjectItem = {
   tags: string[];
   accentTags: string[];
   url: string;
+  github?: string;
+  blog?: string;
 };
 
 export type HomeCopy = {
@@ -41,6 +43,7 @@ export type HomeCopy = {
     homeAria: string;
     stack: string;
     projects: string;
+    blog: string;
     about: string;
     contact: string;
     openMenuAria: string;
@@ -100,6 +103,10 @@ export type HomeCopy = {
     socialCv: string;
     builtWith: string;
   };
+  blogList: {
+    title: string;
+    description: string;
+  };
 };
 
 export const homeEs: HomeCopy = {
@@ -124,6 +131,7 @@ export const homeEs: HomeCopy = {
     homeAria: 'Inicio',
     stack: 'Stack',
     projects: 'Proyectos IA',
+    blog: 'Blog',
     about: 'Sobre mí',
     contact: 'Contactar →',
     openMenuAria: 'Abrir menú de navegación',
@@ -208,35 +216,43 @@ embeddings, vectores, agentes, RAG y fine-tuning. Construyo productos que piensa
   PROJECTS: [
     {
       num: '001',
-      name: 'AI Document Pipeline',
-      desc: 'Procesamiento inteligente de documentos legales con extracción estructurada, clasificación automática y búsqueda semántica sobre miles de PDFs en tiempo real.',
-      tags: ['RAG', 'LangChain', 'AWS Lambda', 'PostgreSQL + pgvector'],
-      accentTags: ['RAG', 'LangChain'],
+      name: 'CodeReborn Engine',
+      desc: 'Motor de orquestación multi-agente para análisis de código legado. Usa CrewAI, Tree-sitter y MCP para transformar repositorios complejos en conocimiento estructurado.',
+      tags: ['AI Orchestration', 'CrewAI', 'Tree-sitter', 'Python'],
+      accentTags: ['AI Orchestration', 'CrewAI'],
       url: '#',
+      github: 'https://github.com/luisfarfan/codereborn-engine',
+      blog: '/blog/codereborn-engine',
     },
     {
       num: '002',
-      name: 'Autonomous AI Agent',
-      desc: 'Agente multi-step con memoria persistente, uso de herramientas externas, ejecución de código y auto-reflexión. Integración con MCP para 20+ tools.',
-      tags: ['MCP', 'Claude API', 'Node.js', 'Redis', 'Docker'],
-      accentTags: ['MCP', 'Claude API'],
+      name: 'Lucho Ecommerce',
+      desc: 'Plataforma e-commerce multi-tenant con integración profunda de SUNAT y facturación electrónica crítica. Arquitectura modular escalable con FastAPI y Redis.',
+      tags: ['Multi-tenancy', 'FastAPI', 'SUNAT', 'Redis'],
+      accentTags: ['Multi-tenancy', 'SUNAT'],
       url: '#',
+      github: 'https://github.com/luisfarfan/lucho-ecommerce-api',
+      blog: '/blog/lucho-ecommerce',
     },
     {
       num: '003',
-      name: 'Realtime AI Chat Platform',
-      desc: 'Plataforma de chat enterprise con streaming de tokens sin layout shift. Usa Pretext.js para calcular alturas de burbujas predictivamente — 0 reflows.',
-      tags: ['Pretext.js', 'OpenAI Streaming', 'React', 'Serverless'],
-      accentTags: ['Pretext.js', 'OpenAI Streaming'],
+      name: 'DevHub Tauri',
+      desc: 'Dashboard de gestión para desarrolladores construido con Tauri y Rust. Optimización de performance nativa y gestión de flujos de trabajo locales.',
+      tags: ['Tauri', 'Rust', 'React', 'Desktop'],
+      accentTags: ['Tauri', 'Rust'],
       url: '#',
+      github: 'https://github.com/luisfarfan/dev-hub-tauri',
+      blog: '/blog/devhub-tauri',
     },
     {
       num: '004',
-      name: 'Fine-tuned Domain Model',
-      desc: 'Fine-tuning de LLM base para dominio específico de e-commerce. Datos sintéticos, RLHF simplificado y evaluación automática. 40% mejora vs modelo base.',
-      tags: ['Fine-tuning', 'Python', 'FastAPI', 'AWS SageMaker'],
-      accentTags: ['Fine-tuning'],
+      name: 'FuZo (Futbol Manager)',
+      desc: 'Sistema de gestión deportiva con microservicios en Node.js. Manejo de alta concurrencia para estadísticas en tiempo real y gestión de torneos.',
+      tags: ['Node.js', 'PostgreSQL', 'Redis', 'Microservices'],
+      accentTags: ['Node.js', 'Microservices'],
       url: '#',
+      github: 'https://github.com/luisfarfan/futbol-manager',
+      blog: '/blog/fuzo',
     },
   ],
   MARQUEE_ITEMS: [
@@ -298,6 +314,10 @@ Experto en <strong style="color:var(--ink);">Arquitectura, Patrones, Serverless 
     socialCv: 'CV PDF',
     builtWith: 'Hecho con Astro + Pretext.js · Lima, Perú',
   },
+  blogList: {
+    title: 'Bitácora de Ingeniería',
+    description: 'Casos de estudio, reflexiones técnicas y experimentos sobre IA y Arquitectura.',
+  },
 };
 
 export const homeEn: HomeCopy = {
@@ -322,6 +342,7 @@ export const homeEn: HomeCopy = {
     homeAria: 'Home',
     stack: 'Stack',
     projects: 'AI projects',
+    blog: 'Blog',
     about: 'About',
     contact: 'Contact →',
     openMenuAria: 'Open navigation menu',
@@ -406,35 +427,43 @@ agents, RAG, and fine-tuning. I build products that think.`,
   PROJECTS: [
     {
       num: '001',
-      name: 'AI Document Pipeline',
-      desc: 'Intelligent processing of legal documents with structured extraction, automatic classification, and semantic search across thousands of PDFs in real time.',
-      tags: ['RAG', 'LangChain', 'AWS Lambda', 'PostgreSQL + pgvector'],
-      accentTags: ['RAG', 'LangChain'],
+      name: 'CodeReborn Engine',
+      desc: 'Multi-agent orchestration engine for legacy code analysis. Uses CrewAI, Tree-sitter, and MCP to transform complex repositories into structured knowledge.',
+      tags: ['AI Orchestration', 'CrewAI', 'Tree-sitter', 'Python'],
+      accentTags: ['AI Orchestration', 'CrewAI'],
       url: '#',
+      github: 'https://github.com/luisfarfan/codereborn-engine',
+      blog: '/en/blog/codereborn-engine',
     },
     {
       num: '002',
-      name: 'Autonomous AI Agent',
-      desc: 'Multi-step agent with persistent memory, external tools, code execution, and self-reflection. MCP integration for 20+ tools.',
-      tags: ['MCP', 'Claude API', 'Node.js', 'Redis', 'Docker'],
-      accentTags: ['MCP', 'Claude API'],
+      name: 'Lucho Ecommerce',
+      desc: 'Multi-tenant e-commerce platform with deep SUNAT integration and critical electronic invoicing. Scalable modular architecture with FastAPI and Redis.',
+      tags: ['Multi-tenancy', 'FastAPI', 'SUNAT', 'Redis'],
+      accentTags: ['Multi-tenancy', 'SUNAT'],
       url: '#',
+      github: 'https://github.com/luisfarfan/lucho-ecommerce-api',
+      blog: '/en/blog/lucho-ecommerce',
     },
     {
       num: '003',
-      name: 'Realtime AI Chat Platform',
-      desc: 'Enterprise chat platform with token streaming and zero layout shift. Uses Pretext.js for predictive bubble heights — zero reflows.',
-      tags: ['Pretext.js', 'OpenAI Streaming', 'React', 'Serverless'],
-      accentTags: ['Pretext.js', 'OpenAI Streaming'],
+      name: 'DevHub Tauri',
+      desc: 'Developer management dashboard built with Tauri and Rust. Native performance optimization and local workflow management.',
+      tags: ['Tauri', 'Rust', 'React', 'Desktop'],
+      accentTags: ['Tauri', 'Rust'],
       url: '#',
+      github: 'https://github.com/luisfarfan/dev-hub-tauri',
+      blog: '/en/blog/devhub-tauri',
     },
     {
       num: '004',
-      name: 'Fine-tuned Domain Model',
-      desc: 'Fine-tuned base LLM for a specific e-commerce domain. Synthetic data, simplified RLHF, and automated evaluation — ~40% gain vs base model.',
-      tags: ['Fine-tuning', 'Python', 'FastAPI', 'AWS SageMaker'],
-      accentTags: ['Fine-tuning'],
+      name: 'FuZo (Football Manager)',
+      desc: 'Sports management system with Node.js microservices. High concurrency handling for real-time statistics and tournament management.',
+      tags: ['Node.js', 'PostgreSQL', 'Redis', 'Microservices'],
+      accentTags: ['Node.js', 'Microservices'],
       url: '#',
+      github: 'https://github.com/luisfarfan/futbol-manager',
+      blog: '/en/blog/fuzo',
     },
   ],
   MARQUEE_ITEMS: homeEs.MARQUEE_ITEMS,
@@ -478,5 +507,9 @@ Expert in <strong style="color:var(--ink);">software architecture, design patter
     subtitle: 'Available for freelance · senior roles · AI consulting',
     socialCv: 'Résumé PDF',
     builtWith: 'Built with Astro + Pretext.js · Lima, Peru',
+  },
+  blogList: {
+    title: 'Engineering Log',
+    description: 'Case studies, technical reflections, and experiments on AI and Architecture.',
   },
 };

@@ -21,11 +21,11 @@
   --paper: #0a0a0a;
   --ink: #f5f3ef;
   --muted: #888;
-  --border: #222;
+  --border: #1a1a1a;
   --marker: #00c896;
 
-  --bento-border: rgba(255, 255, 255, 0.08);
-  --bento-bg: rgba(0, 0, 0, 0.2);
+  --bento-border: rgba(255, 255, 255, 0.06);
+  --bento-bg: rgba(255, 255, 255, 0.02);
 }
 
 .bg-grid-pattern {
@@ -57,6 +57,15 @@ body {
   cursor: none !important;
 }
 
+@media (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+  #cursor, #cursor-ring {
+    display: none !important;
+  }
+}
+
 #cursor {
   position: fixed;
   top: 0;
@@ -67,8 +76,9 @@ body {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  transition: transform 0.15s ease, opacity 0.2s;
-  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  will-change: transform;
 }
 
 #cursor-ring {
@@ -81,8 +91,9 @@ body {
   border-radius: 50%;
   pointer-events: none;
   z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: transform 0.08s linear, width 0.2s, height 0.2s, border-color 0.2s;
+  opacity: 0;
+  transition: opacity 0.3s ease, width 0.2s, height 0.2s, border-color 0.2s;
+  will-change: transform;
 }
 
 body:has(a:hover) #cursor-ring,
@@ -185,7 +196,7 @@ body:has([data-hover]:hover) #cursor-ring {
   border: none;
   border-left: 1px solid var(--border);
   background: var(--paper);
-  box-shadow: -0.75rem 0 2.5rem rgba(10, 10, 10, 0.08);
+  box-shadow: -0.75rem 0 2.5rem rgba(0, 0, 0, 0.3);
   overscroll-behavior: contain;
 }
 

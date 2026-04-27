@@ -32,7 +32,7 @@ export default function HeroContextWidgets({ availability, archTitle, archItems,
           </span>
           <div className="flex flex-wrap gap-2">
             {archItems.map((item, i) => (
-              <span key={i} className="font-mono text-[0.7rem] bg-ink/5 px-2 py-1 rounded-[0.125rem] text-ink/70 border border-ink/5">
+              <span key={i} className="font-mono text-[0.7rem] bg-ink/[0.03] dark:bg-ink/[0.08] px-2 py-1 rounded-[0.125rem] text-ink/70 border border-ink/5">
                 {item}
               </span>
             ))}

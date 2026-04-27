@@ -1,0 +1,74 @@
+---
+import type { HomeCopy } from '../i18n/home';
+
+interface Props {
+  footer: HomeCopy['footer'];
+  me: HomeCopy['ME'];
+  sectionId?: string;
+}
+
+const { footer, me, sectionId = 'contact' } = Astro.props;
+---
+
+<footer
+  id={sectionId}
+  class="py-24 px-6 sm:px-10 text-center bg-ink"
+>
+  <p
+    class="font-mono text-[0.6875rem] text-paper/30 tracking-[0.15em] uppercase mb-5"
+  >
+    {footer.kicker}
+  </p>
+  <h2
+    class="font-display text-[clamp(2.5rem,7vw,4.5rem)] font-extrabold text-paper tracking-[-0.04em] leading-[0.95] mb-4"
+    set:html={footer.titleHtml}
+  />
+  <p class="font-mono text-[0.8125rem] text-paper/35 mb-9">
+    {footer.subtitle}
+  </p>
+
+  <div class="flex flex-wrap gap-3.5 justify-center">
+    <a
+      href={`mailto:${me.email}`}
+      class="font-mono text-[0.8125rem] px-8 py-3.5 rounded-[0.125rem] bg-accent text-ink no-underline tracking-[0.05em] transition-opacity duration-200 hover:opacity-85 cursor-none"
+      data-hover
+    >
+      {me.email}
+    </a>
+    <a
+      href={me.linkedin}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="font-mono text-[0.8125rem] px-8 py-3.5 rounded-[0.125rem] border border-paper/20 text-paper no-underline tracking-[0.05em] transition-colors duration-200 hover:border-paper/50 cursor-none"
+      data-hover
+    >
+      LinkedIn →
+    </a>
+  </div>
+
+  <div
+    class="flex flex-wrap gap-8 justify-center mt-14 pt-8 border-t border-paper/10"
+  >
+    {[
+      { label: 'GitHub', href: me.github },
+      { label: 'LinkedIn', href: me.linkedin },
+      { label: 'Twitter/X', href: me.twitter },
+      { label: footer.socialCv, href: me.cvUrl },
+    ].map((link) => (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="font-mono text-[0.6875rem] text-paper/30 tracking-[0.1em] uppercase no-underline transition-colors duration-200 hover:text-paper/80"
+        data-hover
+      >
+        {link.label}
+      </a>
+    ))}
+  </div>
+
+  <p class="font-mono text-[0.625rem] text-paper/15 mt-10 tracking-[0.08em]">
+    © {new Date().getFullYear()}
+    {me.name} · {footer.builtWith}
+  </p>
+</footer>

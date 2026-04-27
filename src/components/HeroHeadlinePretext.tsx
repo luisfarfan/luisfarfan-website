@@ -14,10 +14,9 @@ const IDLE_SPD = 0.00095; // idle oscillation speed
 // Micro-characters to randomly assign to each particle
 const MICRO_CHARS = ['·', '·', '·', '·', '·', '.', '·', '·', '-', '+', '·', '·'];
 
-// Site colors (approximated from CSS variables)
-const PAPER = '#f5f3ef';
-const ACCENT = '#00c896';
-const INK = '#0a0a0a';
+// Site colors will be fetched dynamically from CSS variables
+let ACCENT = '#00c896';
+let INK = '#0a0a0a';
 
 interface Particle {
   x: number;
@@ -106,7 +105,11 @@ export default function HeroHeadlinePretext({ name }: HeroHeadlinePretextProps) 
     offCtx.fillStyle = '#fff';
     offCtx.fillText(text, W / 2, canvas.height / 2);
 
-    // Sample pixels
+    // Get current theme colors from CSS variables
+    const style = getComputedStyle(document.documentElement);
+    ACCENT = style.getPropertyValue('--accent').trim() || '#00c896';
+    INK = style.getPropertyValue('--ink').trim() || '#0a0a0a';
+
     const img = offCtx.getImageData(0, 0, W, canvas.height);
     const px = img.data;
 
@@ -150,8 +153,7 @@ export default function HeroHeadlinePretext({ name }: HeroHeadlinePretextProps) 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    ctx.fillStyle = PAPER;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.font = '10px "DM Mono", monospace'; // larger and bolder micro-characters
     ctx.textAlign = 'center';
@@ -206,14 +208,15 @@ export default function HeroHeadlinePretext({ name }: HeroHeadlinePretextProps) 
   useEffect(() => {
     build(name);
 
-    const handleResize = () => {
-      build(name);
-    };
+    const handleResize = () => build(name);
+    const handleThemeChange = () => build(name);
 
     window.addEventListener('resize', handleResize);
+    window.addEventListener('theme-changed', handleThemeChange);
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('theme-changed', handleThemeChange);
       if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
     };
   }, [name]);

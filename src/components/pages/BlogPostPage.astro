@@ -1,0 +1,375 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../Nav.astro';
+import Footer from '../Footer.astro';
+import type { HomeCopy } from '../../i18n/home';
+import { render } from 'astro:content';
+import { SITE } from '../../config/site';
+
+interface Props {
+  copy: HomeCopy;
+  post: any;
+}
+
+const { copy, post } = Astro.props;
+const { locale, nav, sectionIds, ME, footer } = copy;
+const { Content } = await render(post);
+
+// Calculate canonical and alternates
+const slug = post.slug.split('/').pop();
+const canonicalUrl = new URL(locale === 'es' ? `/blog/${slug}` : `/en/blog/${slug}`, SITE.url).href;
+const hrefEs = new URL(`/blog/${slug}`, SITE.url).href;
+const hrefEn = new URL(`/en/blog/${slug}`, SITE.url).href;
+---
+
+<BaseLayout
+  lang={copy.htmlLang}
+  title={`${post.data.title} | Blog | ${ME.name}`}
+  description={post.data.description}
+  keywords={copy.meta.keywords}
+  canonicalUrl={canonicalUrl}
+  openGraphLocale={copy.openGraphLocale}
+  personName={ME.name}
+  personEmail={ME.email}
+  personJobTitle={copy.personJobTitle}
+  personDescription={copy.meta.description}
+  personSameAs={[ME.github, ME.linkedin, ME.twitter]}
+  hreflangAlternates={[
+    { hreflang: 'es', href: hrefEs },
+    { hreflang: 'en', href: hrefEn },
+  ]}
+>
+  <Nav locale={locale} nav={nav} sectionIds={sectionIds} me={ME} />
+
+  <main class="min-h-screen border-b border-[var(--border)] bg-grid-pattern">
+    <div class="flex flex-col lg:grid lg:grid-cols-[20rem_1fr]">
+      <!-- Sidebar / Metadata -->
+      <aside 
+        class="p-10 sm:p-14 lg:p-[5rem_3rem] border-b lg:border-b-0 lg:border-r border-[var(--border)] backdrop-blur-md sticky top-14 lg:top-16 lg:h-[calc(100vh-4rem)] flex flex-col justify-between z-10"
+        style="background-color: color-mix(in srgb, var(--paper) 80%, transparent)"
+      >
+        <div>
+          <a 
+            href={locale === 'es' ? '/blog' : '/en/blog'} 
+            class="font-mono text-[0.625rem] text-accent font-bold uppercase tracking-[0.2em] hover:opacity-70 flex items-center gap-2 mb-12 no-underline cursor-none"
+            data-hover
+          >
+            <svg class="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+            {locale === 'es' ? 'Volver' : 'Back'}
+          </a>
+
+          <div class="font-mono text-[0.625rem] text-muted uppercase tracking-widest mb-4">Case Study</div>
+          <h2 class="font-display text-[1.5rem] font-bold tracking-tight text-ink mb-8 leading-tight">
+            {post.data.title}
+          </h2>
+
+          <div class="space-y-6">
+            <div>
+              <p class="font-mono text-[0.625rem] text-muted uppercase tracking-widest mb-2">Category</p>
+              <div class="flex flex-wrap gap-1.5">
+                {post.data.tags?.map((tag: string) => {
+                  const definitions: any = {
+                    'AI Orchestration': {
+                      es: 'Gestión de flujos de trabajo entre múltiples modelos de IA y agentes.',
+                      en: 'Managing workflows between multiple AI models and agents.'
+                    },
+                    'CrewAI': {
+                      es: 'Framework para orquestar agentes de IA autónomos con roles específicos.',
+                      en: 'Framework for orchestrating role-playing autonomous AI agents.'
+                    },
+                    'Python': {
+                      es: 'Lenguaje de alto nivel, estándar de la industria para IA y Ciencia de Datos.',
+                      en: 'High-level programming language, industry standard for AI/ML.'
+                    },
+                    'Tree-sitter': {
+                      es: 'Sistema de parsing incremental para construir árboles de sintaxis (AST).',
+                      en: 'Incremental parsing system for building concrete syntax trees (AST).'
+                    },
+                    'Langfuse': {
+                      es: 'Herramienta de observabilidad y analíticas para aplicaciones con LLMs.',
+                      en: 'Observability and analytics platform for LLM applications.'
+                    },
+                    'LiteLLM': {
+                      es: 'Librería para conectar con 100+ LLMs usando un formato unificado.',
+                      en: 'Library to call 100+ LLMs using a unified OpenAI format.'
+                    },
+                    'MCP': {
+                      es: 'Protocolo estándar para conectar LLMs con datos y herramientas.',
+                      en: 'Open standard for connecting LLMs to data and tools.'
+                    },
+                    'FastAPI': {
+                      es: 'Framework web moderno y rápido para construir APIs con Python.',
+                      en: 'Modern, high-performance web framework for building APIs with Python.'
+                    },
+                    'PostgreSQL': {
+                      es: 'Base de datos relacional avanzada y de código abierto.',
+                      en: 'Advanced, open-source relational database system.'
+                    },
+                    'Redis': {
+                      es: 'Base de datos en memoria usada para caché y colas de mensajes.',
+                      en: 'In-memory data structure store used for caching and message queuing.'
+                    },
+                    'Clean Architecture': {
+                      es: 'Filosofía de diseño que separa las preocupaciones en capas independientes.',
+                      en: 'Software design philosophy that separates concerns into layers.'
+                    },
+                    'RAG': {
+                      es: 'Generación Aumentada por Recuperación, inyecta datos externos a la IA.',
+                      en: 'Retrieval-Augmented Generation, injecting external data into LLMs.'
+                    }
+                  };
+                  
+                  const tooltip = definitions[tag]?.[locale] || tag;
+                  
+                  return (
+                    <div class="group/tag relative">
+                      <span 
+                        class="font-mono text-[0.625rem] px-2 py-0.5 border text-ink uppercase tracking-wider cursor-help"
+                        style="border-color: var(--border)"
+                      >
+                        {tag}
+                      </span>
+                      <div class="absolute bottom-full left-0 mb-2 w-48 p-2 bg-ink text-paper text-[0.6rem] font-mono leading-tight opacity-0 invisible group-hover/tag:opacity-100 group-hover/tag:visible transition-all duration-200 z-50 pointer-events-none rounded-sm shadow-xl border border-white/10">
+                        {tooltip}
+                        <div class="absolute top-full left-4 border-4 border-transparent border-t-ink"></div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div>
+              <p class="font-mono text-[0.625rem] text-muted uppercase tracking-widest mb-2">Project Status</p>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                  <span class={`font-mono text-[0.6rem] px-2 py-0.5 border uppercase tracking-wider rounded-sm ${
+                    post.data.status === 'completed' ? 'border-green-500/50 text-green-500 bg-green-500/5' :
+                    post.data.status === 'stopped' ? 'border-red-500/50 text-red-500 bg-red-500/5' :
+                    post.data.status === 'in-progress' ? 'border-accent/50 text-accent bg-accent/5' :
+                    'border-muted text-muted bg-muted/5'
+                  }`}>
+                    {post.data.status.replace('-', ' ')}
+                  </span>
+                  {post.data.status === 'in-progress' && (
+                    <span class="font-mono text-[0.6rem] text-muted">{post.data.progress}%</span>
+                  )}
+                </div>
+                
+                {post.data.status === 'in-progress' && post.data.progress !== undefined && (
+                  <div class="w-full h-1 bg-muted/10 rounded-full overflow-hidden">
+                    <div 
+                      class="h-full bg-accent transition-all duration-1000 ease-out" 
+                      style={`width: ${post.data.progress}%`}
+                    ></div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {post.data.repositories && (
+              <div class="pt-4">
+                <p class="font-mono text-[0.625rem] text-muted uppercase tracking-widest mb-4">Source Code</p>
+                <div class="space-y-3">
+                  {post.data.repositories.map((repo: any) => (
+                    <a 
+                      href={repo.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="group/repo flex items-center justify-between p-3 border border-border bg-paper/50 hover:border-accent transition-all no-underline cursor-none"
+                      data-hover
+                    >
+                      <span class="font-mono text-[0.75rem] text-ink group-hover/repo:text-accent transition-colors">{repo.name}</span>
+                      <svg class="w-4 h-4 text-muted group-hover/repo:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div class="mt-auto pt-10">
+          <div class="flex items-center gap-3 grayscale hover:grayscale-0 transition-all duration-300">
+             <div class="w-10 h-10 rounded-full bg-accent flex items-center justify-center font-bold text-ink">LF</div>
+             <div>
+                <p class="font-mono text-[0.75rem] font-bold text-ink">{ME.name}</p>
+                <p class="font-mono text-[0.625rem] text-muted uppercase">{locale === 'es' ? 'Autor' : 'Author'}</p>
+             </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Article Content -->
+      <article class="bg-paper/20">
+        <header 
+          class="p-10 sm:p-20 lg:p-24 border-b border-[var(--border)]"
+          style="background-color: color-mix(in srgb, var(--paper) 40%, transparent)"
+        >
+           <div class="max-w-4xl">
+              <p class="font-mono text-[0.75rem] text-accent font-bold tracking-[0.3em] uppercase mb-6">
+                Technical Deep Dive
+              </p>
+              <h1 class="font-display text-[2.5rem] sm:text-[3.5rem] lg:text-[4.25rem] font-extrabold leading-[0.95] tracking-[-0.04em] text-ink mb-10">
+                {post.data.title}
+              </h1>
+              <p class="font-mono text-[1.125rem] text-muted leading-relaxed max-w-2xl mb-12">
+                {post.data.description}
+              </p>
+
+              {post.data.repositories && (
+                <div class="lg:hidden flex flex-wrap gap-4 mt-8">
+                  {post.data.repositories.map((repo: any) => (
+                    <a 
+                      href={repo.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="flex items-center gap-3 px-4 py-3 border border-border bg-paper/30 hover:border-accent transition-all no-underline text-ink font-mono text-[0.75rem]"
+                    >
+                      <span>{repo.name}</span>
+                      <svg class="w-4 h-4 text-muted" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.43.372.823 1.102.823 2.222 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                    </a>
+                  ))}
+                </div>
+              )}
+           </div>
+        </header>
+
+        <div class="p-10 sm:p-20 lg:p-24">
+          <div class="prose prose-lg prose-ink dark:prose-invert max-w-4xl mx-auto lg:mx-0">
+            <Content />
+          </div>
+        </div>
+
+    </div>
+
+    <Footer footer={footer} me={ME} sectionId={sectionIds.contact} />
+  </main>
+
+</BaseLayout>
+
+<style is:global>
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(var(--bento-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bento-border) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Premium Typography for Article */
+  .prose h2 {
+    @apply font-display text-4xl font-extrabold tracking-tight mt-20 mb-8 text-ink leading-tight;
+  }
+  .prose h3 {
+    @apply font-display text-2xl font-bold tracking-tight mt-12 mb-6 text-accent uppercase;
+  }
+  .prose p {
+    @apply font-mono text-[1.1rem] leading-[1.8] text-muted mb-10;
+  }
+  .prose strong {
+    @apply text-ink font-bold;
+  }
+  .prose blockquote {
+    @apply border-l-4 border-accent px-10 py-6 italic rounded-r-xl my-12;
+    background-color: color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+  .prose ul {
+    @apply list-none p-0 space-y-4 my-10;
+  }
+  .prose ul li {
+    @apply font-mono relative pl-8 text-muted text-[1rem] leading-relaxed;
+  }
+  .prose ul li::before {
+    content: ">>";
+    @apply absolute left-0 text-accent font-bold text-[0.8rem] top-0.5;
+  }
+
+  /* Mermaid Diagram Style */
+  .mermaid {
+    @apply flex justify-center my-20 p-8 rounded-3xl border backdrop-blur-xl transition-all duration-300;
+    border-color: var(--border);
+    background-color: color-mix(in srgb, var(--paper) 40%, transparent);
+    box-shadow: 0 1rem 3rem color-mix(in srgb, var(--ink) 5%, transparent);
+  }
+  .mermaid svg {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+
+<script is:inline src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script is:inline>
+  const initMermaid = async () => {
+    const codeBlocks = document.querySelectorAll('pre code');
+    codeBlocks.forEach(block => {
+      const text = block.textContent.trim();
+      if (text.startsWith('graph ') || text.startsWith('flowchart ') || text.startsWith('sequenceDiagram ') || text.startsWith('stateDiagram ') || text.startsWith('classDiagram ')) {
+        const pre = block.parentElement;
+        const mermaidDiv = document.createElement('div');
+        mermaidDiv.className = 'mermaid';
+        mermaidDiv.setAttribute('data-original-code', text);
+        mermaidDiv.textContent = text;
+        pre.parentNode.replaceChild(mermaidDiv, pre);
+      }
+    });
+
+    const mermaidDivs = document.querySelectorAll('.mermaid');
+    if (mermaidDivs.length === 0) return;
+
+    // Restore original code if re-running
+    mermaidDivs.forEach(div => {
+      if (div.getAttribute('data-original-code')) {
+        div.removeAttribute('data-processed');
+        div.textContent = div.getAttribute('data-original-code');
+      }
+    });
+
+    const style = getComputedStyle(document.documentElement);
+    const accent = style.getPropertyValue('--accent').trim() || '#00c896';
+    const accent2 = style.getPropertyValue('--accent2').trim() || '#ff4d2e';
+    const paper = style.getPropertyValue('--paper').trim() || '#0a0a0a';
+    const ink = style.getPropertyValue('--ink').trim() || '#fff';
+    const border = style.getPropertyValue('--border').trim() || '#333';
+    const isDark = document.documentElement.classList.contains('dark');
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? 'dark' : 'default',
+      fontFamily: 'DM Mono, monospace',
+      htmlLabels: true,
+      themeVariables: {
+        primaryColor: accent,
+        primaryTextColor: ink,
+        primaryBorderColor: border,
+        lineColor: isDark ? '#555' : '#ccc',
+        secondaryColor: accent2,
+        tertiaryColor: paper,
+        mainBkg: paper,
+        nodeBorder: border,
+        clusterBkg: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+        clusterBorder: border,
+        defaultLinkColor: accent,
+        titleColor: accent,
+        edgeLabelBackground: paper,
+        nodeTextColor: ink
+      }
+    });
+
+    await mermaid.run();
+  };
+
+  // Run on load
+  initMermaid();
+  document.addEventListener('DOMContentLoaded', initMermaid);
+  window.addEventListener('load', initMermaid);
+
+  // Re-run on theme change
+  let themeTimeout;
+  const observer = new MutationObserver(() => {
+    clearTimeout(themeTimeout);
+    themeTimeout = setTimeout(initMermaid, 100);
+  });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+</script>
