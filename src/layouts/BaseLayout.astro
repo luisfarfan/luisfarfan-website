@@ -167,6 +167,21 @@ const personSchema = {
     <slot />
 
     <script is:inline>
+      // Global theme toggle listener (added only once)
+      if (!window.__theme_listener_added) {
+        document.addEventListener('click', (e) => {
+          const btn = e.target.closest('.theme-toggle-btn');
+          if (btn) {
+            const isDark = document.documentElement.classList.contains('dark');
+            const newTheme = isDark ? 'light' : 'dark';
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', newTheme);
+            window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
+          }
+        });
+        window.__theme_listener_added = true;
+      }
+
       const init = () => {
         const cursor = document.getElementById('cursor');
         const ring = document.getElementById('cursor-ring');
