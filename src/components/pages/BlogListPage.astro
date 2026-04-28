@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../Nav.astro';
-import Footer from '../Footer.astro';
+import SiteFooter from '../SiteFooter.astro';
 import type { HomeCopy } from '../../i18n/home';
 import { getCollection } from 'astro:content';
 import { SITE } from '../../config/site';
@@ -21,6 +21,25 @@ const posts = await getCollection('blog', ({ id }) => {
 const canonicalUrl = new URL(locale === 'es' ? '/blog' : '/en/blog', SITE.url).href;
 const hrefEs = new URL('/blog', SITE.url).href;
 const hrefEn = new URL('/en/blog', SITE.url).href;
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: locale === 'es' ? 'Inicio' : 'Home',
+      item: SITE.url,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: blogList.title,
+      item: canonicalUrl,
+    },
+  ],
+};
 ---
 
 <BaseLayout
@@ -39,6 +58,7 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
     { hreflang: 'es', href: hrefEs },
     { hreflang: 'en', href: hrefEn },
   ]}
+  extraSchema={breadcrumbSchema}
 >
   <Nav locale={locale} nav={nav} sectionIds={sectionIds} me={ME} />
 
@@ -46,8 +66,8 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
     <div class="flex flex-col lg:grid lg:grid-cols-[20rem_1fr]">
       <!-- Sidebar -->
       <aside 
-        class="p-10 sm:p-14 lg:p-[5rem_3rem] border-b lg:border-b-0 lg:border-r border-[var(--border)] backdrop-blur-md sticky top-14 lg:top-16 lg:h-[calc(100vh-4rem)] flex flex-col justify-between z-10"
-        style="background-color: color-mix(in srgb, var(--paper) 80%, transparent)"
+        class="p-10 sm:p-14 lg:p-[5rem_3rem] border-b lg:border-b-0 lg:border-r border-[var(--border)] backdrop-blur-xl sticky top-14 lg:top-16 lg:h-[calc(100vh-4rem)] flex flex-col justify-between z-10"
+        style="background-color: color-mix(in srgb, var(--paper) 70%, transparent); border-color: color-mix(in srgb, var(--ink) 5%, transparent);"
       >
         <div>
           <div class="font-mono text-[0.6875rem] text-accent tracking-[0.15em] uppercase mb-6 flex items-center gap-2">
@@ -56,7 +76,7 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
           </div>
           <h1 class="font-display text-[clamp(2.25rem,5vw,3.5rem)] font-extrabold leading-[0.9] tracking-[-0.04em] text-ink break-words">
             {blogList.title.split(' ').map((word: string, i: number) => (
-              <span class={word.toLowerCase() === 'ingeniería' || word.toLowerCase() === 'journal' ? 'text-accent' : ''}>{word}<br/></span>
+              <span class={['código', 'code'].includes(word.toLowerCase()) ? 'text-accent' : ''}>{word}<br/></span>
             ))}
           </h1>
           <p class="font-mono text-[0.8125rem] text-muted leading-[1.8] mt-8 max-w-[15rem]">
@@ -65,7 +85,7 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
         </div>
 
         <div class="mt-12 lg:mt-0">
-          <p class="font-mono text-[0.625rem] text-muted uppercase tracking-widest mb-4">Total entries</p>
+          <p class="font-mono text-[0.625rem] text-muted uppercase tracking-widest mb-4">{blogList.totalEntries}</p>
           <div class="text-4xl font-display font-bold text-ink">
             {posts.length.toString().padStart(2, '0')}
           </div>
@@ -73,18 +93,13 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
       </aside>
 
       <!-- Content -->
-      <div 
-        class="divide-y divide-[var(--border)]"
-        style="background-color: color-mix(in srgb, var(--paper) 40%, transparent)"
-      >
+      <div class="divide-y divide-border">
         {posts.length > 0 ? (
           posts.map((post, i) => (
             <a
               href={locale === 'es' ? `/blog/${post.slug.split('/').pop()}` : `/en/blog/${post.slug.split('/').pop()}`}
-              class="group relative block p-10 sm:p-16 lg:p-20 overflow-hidden transition-all duration-300 no-underline cursor-none"
+              class="group relative block p-10 sm:p-16 lg:p-20 overflow-hidden transition-all duration-300 no-underline cursor-none hover:bg-[var(--hover-bg-glass)]"
               style="--hover-bg-glass: color-mix(in srgb, var(--paper) 80%, transparent); --hover-accent-glow: color-mix(in srgb, var(--accent) 2%, transparent);"
-              onmouseover="this.style.backgroundColor=this.style.getPropertyValue('--hover-bg-glass')"
-              onmouseout="this.style.backgroundColor='transparent'"
               data-hover
             >
               {/* Animated glass background */}
@@ -97,9 +112,9 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
                 <div class="flex-1">
                   <div class="flex items-center gap-4 mb-6">
                     <span class="font-mono text-[0.625rem] text-accent font-bold tracking-[0.2em] uppercase">
-                      Entry #{(i + 1).toString().padStart(3, '0')}
+                      {new Date(post.data.date).toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' })}
                     </span>
-                    <span class="h-px w-8 bg-border" />
+                    <span class="h-px w-8 bg-[var(--border)] opacity-30" />
                     <span class="font-mono text-[0.625rem] text-muted uppercase tracking-widest">
                       {post.data.tags?.[0] || 'Technical'}
                     </span>
@@ -118,7 +133,10 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
                     </span>
                   </div>
 
-                  <h2 class="font-display text-[2.25rem] sm:text-[3rem] font-bold tracking-tight text-ink group-hover:text-accent transition-colors duration-300 leading-[1.1] mb-6">
+                  <h2 
+                    class="font-display text-[2.25rem] sm:text-[3rem] font-bold tracking-tight text-ink group-hover:text-accent transition-colors duration-300 leading-[1.1] mb-6"
+                    transition:name={`blog-title-${post.slug}`}
+                  >
                     {post.data.title}
                   </h2>
 
@@ -129,10 +147,8 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
                   <div class="flex flex-wrap gap-2 mt-8">
                     {post.data.tags?.map((tag: string) => (
                       <span 
-                        class="font-mono text-[0.625rem] px-2.5 py-1 rounded-[0.125rem] border text-muted transition-colors group-hover:text-accent"
+                        class="font-mono text-[0.625rem] px-2.5 py-1 rounded-[0.125rem] border text-muted transition-colors group-hover:text-accent hover:border-[var(--hover-border)] hover:bg-[var(--hover-bg)]"
                         style="border-color: var(--border); --hover-border: color-mix(in srgb, var(--accent) 30%, transparent); --hover-bg: color-mix(in srgb, var(--accent) 5%, transparent);"
-                        onmouseover="this.style.borderColor=this.style.getPropertyValue('--hover-border'); this.style.backgroundColor=this.style.getPropertyValue('--hover-bg')"
-                        onmouseout="this.style.borderColor='var(--border)'; this.style.backgroundColor='transparent'"
                       >
                         {tag}
                       </span>
@@ -142,7 +158,7 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
 
                 <div class="flex items-center gap-4 text-ink self-end md:self-start group-hover:translate-x-2 transition-transform duration-300">
                   <span class="font-mono text-[0.75rem] font-bold uppercase tracking-[0.15em]">
-                    {locale === 'es' ? 'Leer ahora' : 'Read more'}
+                    {blogList.readMore}
                   </span>
                   <svg class="w-6 h-6 stroke-accent" fill="none" viewBox="0 0 24 24" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
@@ -159,15 +175,6 @@ const hrefEn = new URL('/en/blog', SITE.url).href;
       </div>
     </div>
   </main>
-
-  <Footer footer={copy.footer} me={ME} />
 </BaseLayout>
 
-<style>
-  .bg-grid-pattern {
-    background-image: 
-      linear-gradient(var(--bento-border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--bento-border) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-</style>
+

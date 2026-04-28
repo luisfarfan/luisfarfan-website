@@ -13,7 +13,7 @@ const { sectionId, projects, items, githubUrl } = Astro.props;
 
 <section id={sectionId} class="border-b border-[var(--border)]">
   <div class="flex flex-col lg:grid lg:grid-cols-[17.5rem_1fr]">
-    <div class="p-10 sm:p-14 lg:p-[3.75rem_2.5rem] border-b lg:border-b-0 lg:border-r border-[var(--border)] flex flex-col justify-between">
+    <div class="p-6 sm:p-14 lg:p-[3.75rem_2.5rem] border-b lg:border-b-0 lg:border-r border-[var(--border)] flex flex-col justify-between">
       <div>
         <div
           class="font-mono text-[0.6875rem] text-muted tracking-[0.12em] uppercase mb-4"
@@ -42,21 +42,21 @@ const { sectionId, projects, items, githubUrl } = Astro.props;
     <div class="divide-y divide-[var(--border)]">
       {items.map((p) => (
         <div
-          class="grid grid-cols-1 md:grid-cols-[1fr_auto] items-start gap-8 p-8 sm:p-12 transition-colors duration-150 hover:bg-paper/50 group relative overflow-hidden"
+          class="grid grid-cols-1 md:grid-cols-[1fr_auto] items-start gap-8 p-5 sm:p-12 transition-colors duration-150 hover:bg-paper/50 group relative overflow-hidden"
         >
           {/* Subtle background glow on hover */}
           <div class="absolute inset-0 bg-accent/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
           <div class="relative z-10">
-            <div class="font-mono text-[0.625rem] text-muted tracking-widest mb-3 flex items-center gap-2">
+            <div class="font-mono text-[0.625rem] text-muted group-hover:text-accent tracking-widest mb-3 flex items-center gap-2 transition-colors duration-200">
               <span class="w-1 h-1 rounded-full bg-accent" />
               {p.num}
             </div>
             
             <a 
-              href={p.url} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+              href={p.url !== '#' ? p.url : (p.blog || '#')} 
+              target={p.url !== '#' ? '_blank' : '_self'}
+              rel={p.url !== '#' ? 'noopener noreferrer' : ''} 
               class="inline-flex items-center gap-2 font-display text-[1.75rem] font-bold tracking-tight text-ink hover:text-accent transition-colors mb-3 cursor-none"
               data-hover
             >
@@ -103,8 +103,6 @@ const { sectionId, projects, items, githubUrl } = Astro.props;
                   {p.blog && (
                     <a 
                       href={p.blog} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
                       class="flex items-center gap-2 font-mono text-[0.6875rem] text-muted hover:text-ink transition-colors cursor-none group/link"
                       data-hover
                     >
@@ -117,9 +115,11 @@ const { sectionId, projects, items, githubUrl } = Astro.props;
             </div>
           </div>
 
-          <div class="hidden md:flex flex-col items-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-            <span class="font-mono text-[0.625rem] text-muted uppercase tracking-[0.2em] whitespace-nowrap">Case Study Available</span>
-          </div>
+          {p.blog && (
+            <div class="hidden md:flex flex-col items-end gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
+              <span class="font-mono text-[0.625rem] text-muted uppercase tracking-[0.2em] whitespace-nowrap">{projects.caseStudyLabel}</span>
+            </div>
+          )}
         </div>
       ))}
     </div>
