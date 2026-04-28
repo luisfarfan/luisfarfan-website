@@ -1,6 +1,5 @@
 ---
 import HeroHeadlinePretext from '../HeroHeadlinePretext.tsx';
-import HeroContextWidgets from '../HeroContextWidgets.tsx';
 import type { HomeCopy } from '../../i18n/home';
 
 interface Props {
@@ -9,104 +8,106 @@ interface Props {
 
 const { ME, hero, sectionIds, srOnly, personJobTitle, about } = Astro.props.copy;
 
-// Find availability and location from about values
-const availability = about.values.find(v => v.label.toLowerCase().includes('disponibilidad') || v.label.toLowerCase().includes('availability'))?.value || '';
-const location = ME.location;
+const availability = about.values.find(
+  v => v.label.toLowerCase().includes('disponibilidad') || v.label.toLowerCase().includes('availability')
+)?.value ?? '';
+
+const aiStack = [
+  { key: 'IDE',          tags: [{ name: 'Cursor', paid: true }, { name: 'Antigravity', paid: true }] },
+  { key: 'AGENTS',       tags: [{ name: 'Claude Code', paid: true }, { name: 'Codex', paid: true }, { name: 'Minimax', paid: true }] },
+  { key: 'MODELS',       tags: [{ name: 'OpenRouter', paid: false }, { name: 'Fal.AI', paid: false }, { name: 'Ollama', paid: false }] },
+  { key: 'ORCHESTRATE',  tags: [{ name: 'Ruflo', paid: false }, { name: 'CrewAI', paid: false }] },
+  { key: 'DOCS/WIKI',    tags: [{ name: 'Tolaria', paid: false }, { name: 'SDD', paid: false }] },
+  { key: 'UI / UX',      tags: [{ name: 'Impeccable', paid: false }, { name: 'ui-ux-pro-max', paid: false }] },
+];
 ---
 
 <section
-  class="relative border-b border-[var(--border)] overflow-hidden bg-grid-pattern"
-  style="min-height:92vh;"
+  class="relative border-b border-[var(--border)] bg-grid-pattern flex flex-col overflow-hidden min-h-[auto] lg:min-h-[90vh]"
 >
-  <!-- Ambient Glow -->
-  <div class="absolute inset-0 pointer-events-none opacity-40 dark:opacity-20" 
-       style="background: radial-gradient(circle at 30% 30%, var(--accent) 0%, transparent 40%); filter: blur(120px);">
+  <!-- Status bar -->
+  <div class="border-b border-[var(--border)] px-6 sm:px-10 py-3.5 flex items-center justify-between gap-4">
+    <span class="font-mono text-[0.75rem] font-bold tracking-[0.12em] text-accent uppercase min-w-0 truncate">
+      {personJobTitle}
+    </span>
+    <div class="flex items-center gap-2.5 shrink-0">
+      <span class="relative flex h-1.5 w-1.5">
+        <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-60"></span>
+        <span class="relative h-1.5 w-1.5 rounded-full bg-accent"></span>
+      </span>
+      <span class="font-mono text-[0.75rem] font-medium tracking-[0.12em] text-accent/60 uppercase">
+        {availability}
+      </span>
+    </div>
   </div>
 
-  <div class="relative mx-auto max-w-[1400px] px-4 py-10 sm:px-8 sm:py-12 md:px-10 md:py-14 flex flex-col justify-between" style="min-height:92vh;">
-    
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start mt-10">
-      
-      {/* Main Content Area (8 cols) */}
-      <div class="lg:col-span-8">
-        <p
-          class="animate-fade-up delay-100 font-mono text-[0.6875rem] text-accent tracking-[0.15em] uppercase mb-6 flex items-center gap-3"
+  <!-- Particle headline -->
+  <div class="animate-fade-up delay-100 shrink-0 px-6 sm:px-10 pt-10 pb-6">
+    <h1 class="sr-only">{ME.name} — {personJobTitle}</h1>
+    <p class="sr-only">{srOnly.heroCanvas}</p>
+    <HeroHeadlinePretext client:load name={ME.name} />
+  </div>
+
+  <!-- Content grid -->
+  <div class="animate-fade-up delay-200 border-t border-[var(--border)] grid grid-cols-1 lg:grid-cols-[1fr_440px] flex-1">
+
+    <!-- Subtitle + CTAs -->
+    <div class="px-6 sm:px-10 py-6 sm:py-10 flex flex-col justify-between gap-8 border-b border-[var(--border)] lg:border-b-0 lg:border-r">
+      <p
+        class="text-[0.9375rem] text-ink/60 leading-[1.85] max-w-2xl"
+        set:html={hero.subtitle}
+      />
+      <div class="flex items-center gap-8 flex-wrap">
+        <a
+          href={`#${sectionIds.projects}`}
+          class="font-mono text-[0.75rem] tracking-[0.05em] bg-ink text-paper px-7 py-3.5 no-underline hover:bg-accent hover:text-ink active:translate-y-px active:opacity-80 transition-all duration-150 cursor-none"
+          data-hover
         >
-          <span class="w-8 h-[1px] bg-accent/30"></span>
-          // {personJobTitle} · {ME.years} {hero.kickerSuffix}
-        </p>
-
-        <h1 class="sr-only">
-          {ME.name} — {personJobTitle}
-        </h1>
-
-        <p class="sr-only">{srOnly.heroCanvas}</p>
-        <div class="animate-fade-up delay-200 mt-2 w-full">
-          <HeroHeadlinePretext client:load name={ME.name} />
-        </div>
-
-        <div class="mt-12 flex flex-col md:flex-row md:items-start gap-12">
-          <div class="flex-1">
-            <p
-              class="animate-fade-up delay-300 font-mono text-[0.8125rem] text-muted leading-[1.85] max-w-[28rem]"
-              set:html={hero.subtitle}
-            />
-            
-            <p class="animate-fade-up delay-400 mt-6 font-display text-[0.9375rem] text-ink/80 italic leading-relaxed max-w-[25rem] border-l-2 border-accent/20 pl-4">
-              "{hero.philosophy}"
-            </p>
-          </div>
-
-          <div class="animate-fade-up delay-500 flex flex-col gap-5 pt-2">
-            <a
-              href={`#${sectionIds.projects}`}
-              class="bg-ink text-paper px-8 py-4 font-mono text-[0.8125rem] rounded-[0.125rem] no-underline tracking-[0.05em] transition-all duration-200 inline-block hover:bg-accent hover:text-ink cursor-none shadow-lg text-center"
-              data-hover
-            >
-              {hero.ctaProjects}
-            </a>
-            <a
-              href={ME.cvUrl}
-              class="font-mono text-[0.75rem] text-muted tracking-[0.05em] no-underline border-b border-muted/30 pb-0.5 hover:text-ink hover:border-ink transition-colors text-center"
-              data-hover
-            >
-              {hero.ctaCv}
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Side Bento Area (4 cols) */}
-      <div class="lg:col-span-4 animate-fade-up delay-450">
-        <HeroContextWidgets 
-          client:load 
-          availability={availability}
-          archTitle={hero.archTitle}
-          archItems={hero.archItems}
-          aiTitle={hero.aiTitle}
-          focus={hero.focus}
-        />
+          {hero.ctaProjects}
+        </a>
+        <a
+          href={ME.cvUrl}
+          class="font-mono text-[0.6875rem] text-muted tracking-[0.06em] no-underline hover:text-ink transition-colors duration-150 cursor-none"
+          data-hover
+        >
+          {hero.ctaCv} ↗
+        </a>
       </div>
     </div>
 
-    {/* Bottom Stats Grid */}
-    <div class="animate-fade-up delay-600 grid grid-cols-1 sm:grid-cols-3 border-t border-l border-[var(--border)] mb-10 sm:mb-0">
-      {[
-        { num: ME.years, label: hero.statsYears },
-        { num: `${ME.projectCount}+`, label: hero.statsProjects },
-        { num: ME.aiProjects, label: hero.statsAi },
-      ].map((s) => (
-        <div class="p-6 sm:p-8 border-r border-b border-[var(--border)] bg-paper/20 backdrop-blur-[2px] hover:bg-paper/40 transition-colors">
-          <div class="font-display text-[2.75rem] font-extrabold text-ink leading-none">
-            {s.num}
+    <!-- Daily AI Stack -->
+    <div class="px-6 sm:px-10 py-8 sm:py-10 flex flex-col justify-center">
+      <div class="mb-8 font-mono text-[0.75rem] font-bold text-accent uppercase tracking-[0.2em] flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+        Daily AI Stack
+      </div>
+      <dl class="divide-y divide-[var(--border)]">
+        {aiStack.map(({ key, tags }) => (
+          <div class="group flex flex-col xl:flex-row xl:items-baseline gap-3 xl:gap-5 py-4 first:pt-0 last:pb-0">
+            <dt class="font-mono text-[0.625rem] font-bold tracking-[0.18em] text-ink/50 group-hover:text-accent transition-colors duration-200 uppercase w-24 shrink-0">{key}</dt>
+            <dd class="flex flex-wrap gap-2 lg:gap-2.5">
+              {tags.map(tag => (
+                <span class={`font-mono text-[0.6875rem] font-semibold px-3 py-1.5 border rounded-[4px] transition-all duration-200 flex items-center gap-1.5 cursor-crosshair
+                  ${tag.paid 
+                    ? 'border-accent/60 text-accent bg-accent/5 group-hover:border-accent group-hover:bg-accent/10 shadow-[0_0_12px_rgba(0,200,150,0.15)]' 
+                    : 'border-[var(--border)] text-ink/80 bg-paper/50 group-hover:border-ink/40 group-hover:text-ink'
+                  }`}>
+                  {tag.name}
+                  {tag.paid && <span class="bg-accent text-paper px-1 py-[1px] rounded-[2px] text-[0.45rem] font-bold tracking-widest leading-none uppercase">PRO</span>}
+                </span>
+              ))}
+            </dd>
           </div>
-          <div
-            class="font-mono text-[0.625rem] text-muted tracking-[0.12em] uppercase mt-2.5"
-          >
-            {s.label}
-          </div>
-        </div>
-      ))}
+        ))}
+      </dl>
     </div>
+  </div>
+
+  <!-- Architecture strip -->
+  <div class="animate-fade-up delay-300 border-t border-[var(--border)] px-6 sm:px-10 py-4 flex items-center gap-4 overflow-hidden">
+    <span class="font-mono text-[0.5625rem] tracking-[0.18em] text-ink/40 uppercase shrink-0">ARCH</span>
+    <span class="font-mono text-[0.625rem] text-ink/40 tracking-wide truncate">
+      {hero.archItems.join(' · ')}
+    </span>
   </div>
 </section>

@@ -6,7 +6,7 @@ import TechMarquee from '../home/TechMarquee.astro';
 import StackSection from '../home/StackSection.astro';
 import ProjectsSection from '../home/ProjectsSection.astro';
 import AboutSection from '../home/AboutSection.astro';
-import ContactSection from '../home/ContactSection.astro';
+import SiteFooter from '../SiteFooter.astro';
 import { SITE } from '../../config/site';
 import type { HomeCopy } from '../../i18n/home';
 
@@ -21,6 +21,18 @@ const canonicalPath = copy.locale === 'es' ? '/' : '/en/';
 const canonicalUrl = new URL(canonicalPath, SITE.url).href;
 const hrefEs = new URL('/', SITE.url).href;
 const hrefEn = new URL('/en/', SITE.url).href;
+
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: ME.name,
+  url: SITE.url,
+  description: meta.description,
+  publisher: {
+    '@type': 'Person',
+    name: ME.name,
+  },
+};
 ---
 
 <BaseLayout
@@ -40,6 +52,7 @@ const hrefEn = new URL('/en/', SITE.url).href;
     { hreflang: 'en', href: hrefEn },
     { hreflang: 'x-default', href: hrefEs },
   ]}
+  extraSchema={websiteSchema}
 >
   <Nav locale={copy.locale} nav={nav} sectionIds={sectionIds} me={ME} />
   <HomeHero
@@ -52,14 +65,14 @@ const hrefEn = new URL('/en/', SITE.url).href;
       about: copy.about,
     }}
   />
-  <TechMarquee items={MARQUEE_ITEMS} />
   <StackSection sectionId={sectionIds.stack} stack={stack} columns={STACK} />
+  <TechMarquee items={MARQUEE_ITEMS} />
   <ProjectsSection
     sectionId={sectionIds.projects}
     projects={projects}
     items={PROJECTS}
     githubUrl={ME.github}
   />
-  <AboutSection sectionId={sectionIds.about} about={about} bio={ME.bio} />
-  <ContactSection sectionId={sectionIds.contact} footer={footer} me={ME} />
+  {/* <AboutSection sectionId={sectionIds.about} about={about} bio={ME.bio} /> */}
+  <SiteFooter footer={footer} me={ME} />
 </BaseLayout>

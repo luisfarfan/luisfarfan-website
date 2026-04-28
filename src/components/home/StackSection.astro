@@ -11,36 +11,34 @@ interface Props {
 const { sectionId, stack, columns } = Astro.props;
 ---
 
-<section id={sectionId} class="py-24 px-6 sm:px-10 border-b border-ink/10 relative overflow-hidden">
-  {/* Abstract Background Element */}
-  <div class="absolute -right-20 top-40 w-80 h-80 bg-accent/5 rounded-full blur-[100px] pointer-events-none"></div>
+<section id={sectionId} class="py-14 sm:py-24 px-6 sm:px-10 border-b border-ink/10">
 
   <div data-animate class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
     <div class="flex items-baseline gap-5">
-      <span class="font-mono text-[0.6875rem] text-accent tracking-[0.12em]">
+      <span class="font-mono text-[0.6875rem] text-muted tracking-[0.12em]">
         {stack.sectionNum}
       </span>
       <h2 class="font-display text-[2.5rem] sm:text-[3.5rem] font-bold tracking-tight text-ink">
         {stack.title}
       </h2>
     </div>
-    
+
     <div class="max-w-xs">
       <p class="font-mono text-[0.75rem] text-muted leading-relaxed uppercase tracking-wider">
-        // Trayectoria técnica consolidada <br />
-        // {columns.reduce((acc, col) => acc + col.items.length, 0)} tecnologías dominadas
+        // {stack.techLine1} <br />
+        // {columns.reduce((acc, col) => acc + col.items.length, 0)} {stack.techLine2Suffix}
       </p>
     </div>
   </div>
 
-  <div data-animate class="animate-fade-up">
-    <TechConsole client:load columns={columns} />
+  <div data-animate>
+    <TechConsole client:visible columns={columns} />
   </div>
-  
+
   <div class="mt-12 flex items-center gap-4">
     <div class="w-12 h-[1px] bg-accent/20"></div>
     <p class="font-mono text-[0.625rem] text-muted tracking-widest uppercase">
-      Selecciona una tecnología para explorar el contexto de arquitectura
+      {stack.hint}
     </p>
   </div>
 </section>

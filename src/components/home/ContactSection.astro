@@ -8,67 +8,86 @@ interface Props {
 }
 
 const { sectionId, footer, me } = Astro.props;
+
+const contactLinks = [
+  { label: me.email,        href: `mailto:${me.email}`,  external: false },
+  { label: 'LinkedIn',      href: me.linkedin,           external: true  },
+  { label: footer.socialCv, href: me.cvUrl,              external: true  },
+];
+
+const footerLinks = [
+  { label: 'GitHub',    href: me.github  },
+  { label: 'Twitter/X', href: me.twitter },
+];
 ---
 
-<section
-  id={sectionId}
-  class="py-24 px-6 sm:px-10 text-center bg-ink"
->
-  <p
-    class="font-mono text-[0.6875rem] text-white/30 tracking-[0.15em] uppercase mb-5"
-  >
-    {footer.kicker}
-  </p>
-  <h2
-    class="font-display text-[clamp(2.5rem,7vw,4.5rem)] font-extrabold text-paper tracking-[-0.04em] leading-[0.95] mb-4"
-    set:html={footer.titleHtml}
-  />
-  <p class="font-mono text-[0.8125rem] text-white/35 mb-9">
-    {footer.subtitle}
-  </p>
+<section id={sectionId} class="bg-ink border-t border-paper/10">
 
-  <div class="flex flex-wrap gap-3.5 justify-center">
-    <a
-      href={`mailto:${me.email}`}
-      class="font-mono text-[0.8125rem] px-8 py-3.5 rounded-[0.125rem] bg-accent text-ink no-underline tracking-[0.05em] transition-opacity duration-200 hover:opacity-85 cursor-none"
-      data-hover
-    >
-      {me.email}
-    </a>
-    <a
-      href={me.linkedin}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="font-mono text-[0.8125rem] px-8 py-3.5 rounded-[0.125rem] border border-white/18 text-paper no-underline tracking-[0.05em] transition-colors duration-200 hover:border-white/50 cursor-none"
-      data-hover
-    >
-      LinkedIn →
-    </a>
+  <!-- Main grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px]" data-animate>
+
+    <!-- Left: the invite -->
+    <div class="px-6 sm:px-14 py-16 sm:py-24 border-b border-paper/10 lg:border-b-0 lg:border-r">
+      <p class="font-mono text-[0.625rem] tracking-[0.18em] text-accent uppercase mb-8">
+        {footer.kicker}
+      </p>
+      <h2
+        class="font-display text-[clamp(2.75rem,7vw,5rem)] font-extrabold text-paper tracking-[-0.03em] leading-[0.93]"
+        set:html={footer.titleHtml}
+      />
+      <p class="font-mono text-[0.8125rem] text-paper/45 leading-relaxed mt-8 max-w-[38ch]">
+        {footer.subtitle}
+      </p>
+    </div>
+
+    <!-- Right: contact links -->
+    <div class="px-6 sm:px-10 py-16 sm:py-24 flex flex-col justify-between gap-12">
+
+      <nav aria-label="Contact links">
+        {contactLinks.map(({ label, href, external }) => (
+          <a
+            href={href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener noreferrer' : undefined}
+            class="group flex items-baseline justify-between py-5 border-b border-paper/10 font-display font-semibold text-[1.125rem] text-paper/65 no-underline hover:text-accent transition-colors duration-150 ease-out cursor-none"
+            data-hover
+          >
+            <span>{label}</span>
+            <span class="font-mono text-[0.8125rem] font-normal opacity-30 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-150 ease-out">↗</span>
+          </a>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-60"></span>
+          <span class="relative h-1.5 w-1.5 rounded-full bg-accent"></span>
+        </span>
+        <span class="font-mono text-[0.5625rem] tracking-[0.18em] text-accent uppercase">
+          {me.location} · GMT-5
+        </span>
+      </div>
+    </div>
   </div>
 
-  <div
-    class="flex flex-wrap gap-8 justify-center mt-14 pt-8 border-t border-white/8"
-  >
-    {[
-      { label: 'GitHub', href: me.github },
-      { label: 'LinkedIn', href: me.linkedin },
-      { label: 'Twitter/X', href: me.twitter },
-      { label: footer.socialCv, href: me.cvUrl },
-    ].map((link) => (
-      <a
-        href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="font-mono text-[0.6875rem] text-white/30 tracking-[0.1em] uppercase no-underline transition-colors duration-200 hover:text-white/80"
-        data-hover
-      >
-        {link.label}
-      </a>
-    ))}
+  <!-- Footer strip -->
+  <div class="border-t border-paper/10 px-6 sm:px-10 py-5 flex items-center justify-between gap-4 flex-wrap">
+    <p class="font-mono text-[0.5625rem] text-paper/25 tracking-[0.06em]">
+      © {new Date().getFullYear()} {me.name} · {footer.builtWith}
+    </p>
+    <div class="flex items-center gap-6">
+      {footerLinks.map(({ label, href }) => (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-[0.5625rem] text-paper/30 tracking-[0.1em] uppercase no-underline hover:text-paper/70 transition-colors duration-150 ease-out cursor-none"
+          data-hover
+        >
+          {label}
+        </a>
+      ))}
+    </div>
   </div>
 
-  <p class="font-mono text-[0.625rem] text-white/15 mt-10 tracking-[0.08em]">
-    © {new Date().getFullYear()}
-    {me.name} · {footer.builtWith}
-  </p>
 </section>

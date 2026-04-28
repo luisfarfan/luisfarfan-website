@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -46,7 +46,7 @@ html {
 body {
   background: var(--paper);
   color: var(--ink);
-  font-family: 'Syne', sans-serif;
+  font-family: 'Epilogue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -117,6 +117,11 @@ body:has([data-hover]:hover) #cursor-ring {
 
 .nav-pill-link--active {
   @apply bg-ink text-paper;
+}
+
+/* Scroll-reveal initial state — observer adds animate-fade-up on entry */
+[data-animate] {
+  opacity: 0;
 }
 
 /* Animations */
@@ -203,4 +208,24 @@ body:has([data-hover]:hover) #cursor-ring {
 .nav-mobile-dialog::backdrop {
   background: rgba(10, 10, 10, 0.35);
   backdrop-filter: blur(0.125rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-animate],
+  .animate-fade-up,
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+
+  .delay-100,
+  .delay-200,
+  .delay-300,
+  .delay-400,
+  .delay-500,
+  .delay-600,
+  .delay-700 {
+    animation-delay: 0s;
+    opacity: 1;
+  }
 }

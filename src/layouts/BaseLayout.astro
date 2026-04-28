@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import { SITE } from '../config/site';
 
+import { ViewTransitions } from 'astro:transitions';
+
 interface HreflangAlternate {
   hreflang: string;
   href: string;
@@ -20,6 +22,12 @@ interface Props {
   personDescription: string;
   personSameAs: string[];
   hreflangAlternates: HreflangAlternate[];
+  extraSchema?: any;
+  articleMeta?: {
+    publishedTime?: string;
+    author?: string;
+    tags?: string[];
+  };
 }
 
 const {
@@ -35,6 +43,8 @@ const {
   personDescription,
   personSameAs,
   hreflangAlternates,
+  extraSchema,
+  articleMeta,
 } = Astro.props;
 
 const ogImageUrl = new URL(SITE.ogImage, SITE.url).href;
@@ -111,6 +121,12 @@ const personSchema = {
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:locale" content={openGraphLocale} />
     <meta property="og:site_name" content={personName} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    {articleMeta?.publishedTime && <meta property="article:published_time" content={articleMeta.publishedTime} />}
+    {articleMeta?.author && <meta property="article:author" content={articleMeta.author} />}
+    {articleMeta?.tags?.map(tag => <meta property="article:tag" content={tag} />)}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content={SITE.twitterHandle} />
@@ -124,82 +140,137 @@ const personSchema = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Syne:wght@400;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+    {extraSchema && <script type="application/ld+json" set:html={JSON.stringify(extraSchema)} />}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <ViewTransitions />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
   </head>
 
-  <body>
-    <div id="cursor"></div>
-    <div id="cursor-ring"></div>
+  <body
+    data-person-name={personName}
+    data-person-email={personEmail}
+    data-person-job={personJobTitle}
+  >
+    <div id="cursor" transition:persist></div>
+    <div id="cursor-ring" transition:persist></div>
 
     <slot />
 
-    <script>
-      const cursor = document.getElementById('cursor');
-      const ring = document.getElementById('cursor-ring');
-      
-      const isTouch = window.matchMedia('(pointer: coarse)').matches;
-      if (isTouch) {
-        if (cursor) cursor.style.display = 'none';
-        if (ring) ring.style.display = 'none';
-      }
-
-      let mx = 0, my = 0; // Mouse position
-      let rx = 0, ry = 0; // Ring position (lerped)
-      let initialized = false;
-
-      const updatePosition = () => {
-        if (isTouch) return;
+    <script is:inline>
+      const init = () => {
+        const cursor = document.getElementById('cursor');
+        const ring = document.getElementById('cursor-ring');
         
-        if (cursor) {
-          cursor.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+        const isTouch = window.matchMedia('(pointer: coarse)').matches;
+        if (isTouch) {
+          if (cursor) cursor.style.display = 'none';
+          if (ring) ring.style.display = 'none';
+          return;
         }
-        
-        // Ring follow logic
-        rx += (mx - rx) * 0.15;
-        ry += (my - ry) * 0.15;
-        
-        if (ring) {
-          ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
-        }
-        
-        requestAnimationFrame(updatePosition);
+
+        let mx = 0, my = 0; 
+        let rx = 0, ry = 0; 
+        let initialized = false;
+
+        const updatePosition = () => {
+          if (cursor) {
+            cursor.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
+          }
+          rx += (mx - rx) * 0.15;
+          ry += (my - ry) * 0.15;
+          if (ring) {
+            ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
+          }
+          requestAnimationFrame(updatePosition);
+        };
+
+        const onMouseMove = (e) => {
+          mx = e.clientX;
+          my = e.clientY;
+          if (!initialized) {
+            initialized = true;
+            rx = mx;
+            ry = my;
+            if (cursor) cursor.style.opacity = '1';
+            if (ring) ring.style.opacity = '1';
+            updatePosition();
+          }
+        };
+
+        const onMouseDown = () => { if (ring) ring.style.scale = '0.8'; };
+        const onMouseUp = () => { if (ring) ring.style.scale = '1'; };
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('mouseup', onMouseUp);
+
+        // Hover effect for links
+        const handleHover = (e) => {
+          const target = e.target;
+          if (target.closest('[data-hover]') || target.tagName === 'A' || target.tagName === 'BUTTON') {
+            if (ring) {
+              ring.style.width = '60px';
+              ring.style.height = '60px';
+              ring.style.borderColor = 'var(--accent)';
+              ring.style.backgroundColor = 'color-mix(in srgb, var(--accent) 5%, transparent)';
+            }
+          } else {
+            if (ring) {
+              ring.style.width = '32px';
+              ring.style.height = '32px';
+              ring.style.borderColor = 'var(--border)';
+              ring.style.backgroundColor = 'transparent';
+            }
+          }
+        };
+
+        document.addEventListener('mouseover', handleHover);
+
+        // Observer for animations
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-up');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 },
+        );
+
+        document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
       };
 
-      document.addEventListener('mousemove', (e) => {
-        if (isTouch) return;
-        
-        mx = e.clientX;
-        my = e.clientY;
+      document.addEventListener('astro:page-load', init);
+    </script>
 
-        if (!initialized) {
-          initialized = true;
-          rx = mx;
-          ry = my;
-          if (cursor) cursor.style.opacity = '1';
-          if (ring) ring.style.opacity = '1';
-          updatePosition();
-        }
-      });
+    <script is:inline>
+      const showEasterEgg = () => {
+        const _name = document.body.getAttribute('data-person-name') ?? '';
+        const _email = document.body.getAttribute('data-person-email') ?? '';
+        const _job = document.body.getAttribute('data-person-job') ?? '';
+        const g = '#00c896';
+        const d = '#888';
+        const p = '#0a0a0a';
+        console.log('%c> ' + _name.toLowerCase().replace(' ', '.'), `color:${g};font-family:"JetBrains Mono",monospace;font-size:18px;font-weight:700;`);
+        console.log('%c  ' + _job, `color:${d};font-family:"JetBrains Mono",monospace;font-size:11px;`);
+        console.log('%c  ─────────────────────────────────────────', `color:${d};font-family:monospace;font-size:10px;`);
+        console.log('%c  So you opened DevTools. I respect that.', `color:${d};font-family:"JetBrains Mono",monospace;font-size:11px;`);
+        console.log('%c  → ' + _email, `color:${g};font-family:"JetBrains Mono",monospace;font-size:11px;`);
+      };
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('animate-fade-up');
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1 },
-      );
-
-      document.querySelectorAll('[data-animate]').forEach((el) => observer.observe(el));
+      document.addEventListener('astro:page-load', showEasterEgg);
     </script>
   </body>
 </html>

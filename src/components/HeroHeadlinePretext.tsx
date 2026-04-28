@@ -62,7 +62,7 @@ export default function HeroHeadlinePretext({ name }: HeroHeadlinePretextProps) 
     let size = 180;
 
     while (size > 32) {
-      const font = `900 ${size}px Syne, Arial Black, sans-serif`;
+      const font = `900 ${size}px Epilogue, Arial Black, sans-serif`;
       tmp.font = font;
       if (tmp.measureText(text).width <= maxWidth * 0.9) {
         return { font, size };
@@ -255,15 +255,27 @@ export default function HeroHeadlinePretext({ name }: HeroHeadlinePretextProps) 
   };
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center py-4 min-h-[14rem]">
-      <canvas
-        ref={canvasRef}
-        onPointerMove={handlePointerMove}
-        onPointerLeave={handlePointerLeave}
-        onClick={handleClick}
-        className="block max-w-full cursor-crosshair touch-none"
-        aria-label={`Interactive particle text: ${name}`}
-      />
+    <div className="relative w-full flex flex-col items-center justify-center py-4 min-h-[8rem] sm:min-h-[14rem]">
+      <div className="relative inline-block">
+        <canvas
+          ref={canvasRef}
+          onPointerMove={handlePointerMove}
+          onPointerLeave={handlePointerLeave}
+          onClick={handleClick}
+          className="block max-w-full cursor-crosshair touch-none"
+          aria-label={`Interactive particle text: ${name}`}
+        />
+        <a 
+          href="https://github.com/chenglou/pretext"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group absolute bottom-6 right-[5%] font-mono text-[0.6rem] text-accent italic hover:text-ink uppercase tracking-widest transition-all duration-300 cursor-pointer z-10 flex items-center gap-2 bg-accent/10 hover:bg-accent px-3 py-1.5 rounded-full border border-accent/30 backdrop-blur-md shadow-[0_4px_14px_rgba(0,200,150,0.15)] hover:shadow-[0_6px_20px_rgba(0,200,150,0.3)] hover:-translate-y-0.5 no-underline"
+          data-hover
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse group-hover:bg-ink"></span>
+          <span className="font-semibold">by PRETEXT ↗</span>
+        </a>
+      </div>
     </div>
   );
 }
