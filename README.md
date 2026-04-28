@@ -1,154 +1,47 @@
-# 🚀 Portfolio — Senior Full Stack Developer & AI Engineer
+# Luis Farfan — Engineering Portfolio & Technical Blog
 
-Website personal de alto impacto construido con **Astro 4**, **React**, **Pretext.js** y **Tailwind CSS**.
+Bienvenido a mi espacio personal de ingeniería. Este repositorio contiene mi sitio web personal, diseñado para mostrar mi trabajo en **Arquitectura de Software**, **Desarrollo Full-stack** y **Sistemas de Inteligencia Artificial**.
 
-## Stack
+Este proyecto no es solo un portfolio, sino una pieza de ingeniería en sí misma, optimizada para el rendimiento, el SEO y una experiencia de usuario técnica impecable.
 
-| Tecnología | Rol |
-|---|---|
-| [Astro 4](https://astro.build) | SSG → HTML estático = SEO perfecto |
-| [i18n nativo](https://docs.astro.build/en/guides/internationalization/) | `/` (ES) y `/en/` sin dependencias extra |
-| [React 18](https://react.dev) | Islands interactivos (canvas, terminal) |
-| [@chenglou/pretext](https://github.com/chenglou/pretext) | Text layout sin DOM reflows |
-| [Tailwind CSS 3](https://tailwindcss.com) | Utilidades de estilos |
-| [@astrojs/sitemap](https://docs.astro.build/en/guides/integrations-guide/sitemap/) | Sitemap automático |
+## 🛠️ Stack Tecnológico
 
-## Setup rápido
+He seleccionado cada herramienta para maximizar la velocidad y la flexibilidad:
+
+*   **[Astro 4](https://astro.build)**: El motor principal. Generación de sitios estáticos (SSG) que garantiza una carga instantánea y un SEO perfecto.
+*   **[React 18](https://react.dev)**: Utilizado estratégicamente para "islas" interactivas de alto rendimiento (canvas del Hero, consolas técnicas, terminales).
+*   **[Pretext.js](https://github.com/chenglou/pretext)**: Una librería avanzada de **Cheng Lou** para el diseño de texto de alto rendimiento sin reflows del DOM. Se utiliza en los componentes creativos para garantizar una tipografía fluida y eficiente.
+*   **[Tailwind CSS](https://tailwindcss.com)**: Sistema de diseño atómico para mantener una estética consistente y minimalista.
+*   **[Astro View Transitions](https://docs.astro.build/en/guides/view-transitions/)**: Para lograr una experiencia de Single Page Application (SPA) sin la sobrecarga de un framework pesado.
+
+## ✨ Características Técnicas
+
+*   **Mosaic Hero Canvas**: El nombre en la cabecera se dibuja dinámicamente mediante un mosaico de micro-glifos estilo Matrix, combinando tipografía `Syne` y `DM Mono` con efectos de glitch y repelencia al cursor.
+*   **Arquitectura i18n Nativa**: Soporte completo para español e inglés implementado de forma nativa en Astro, sin dependencias externas pesadas.
+*   **Engineering Chronicles**: Un blog técnico integrado que utiliza Markdown y **Mermaid.js** para diagramas de arquitectura, permitiendo una documentación profunda de casos de estudio.
+*   **SEO & Accesibilidad**: Optimización completa de metadatos Open Graph, Schema.org (Person), Sitemap automático y cumplimiento de estándares de accesibilidad.
+
+## 🏗️ Estructura del Proyecto
+
+*   `src/components/home/`: Secciones principales de la landing (Hero, Stack, Proyectos).
+*   `src/components/pages/`: Lógica de plantillas para la Home y el Blog.
+*   `src/content/blog/`: Artículos técnicos en Markdown (ES/EN).
+*   `src/i18n/`: Diccionarios de internacionalización y configuración de contenidos.
+*   `src/layouts/`: Estructura base con SEO inyectado.
+
+## 🚀 Guía de Inicio
 
 ```bash
-# 1. Instalar dependencias
+# Instalar dependencias
 npm install
 
-# 2. Dev server
+# Servidor de desarrollo
 npm run dev
 
-# 3. Build producción
+# Generar build de producción
 npm run build
-
-# 4. Preview del build
-npm run preview
 ```
 
-## Personalización — checklist
+---
 
-### 1. Tu info personal
-Edita los objetos `ME` (y el resto del copy) en **`src/i18n/home.ts`** — hay versiones **`homeEs`** y **`homeEn`**. Mantén datos de contacto y enlaces coherentes entre idiomas.
-
-Antes también estaba en `index.astro`; ahora la home usa [`src/components/pages/HomePage.astro`](src/components/pages/HomePage.astro).
-
-```js
-const ME = {
-  name: 'Tu Nombre Real',
-  email: 'hola@tudominio.com',
-  github: 'https://github.com/tuusuario',
-  linkedin: 'https://linkedin.com/in/tuusuario',
-  twitter: 'https://twitter.com/tuusuario',
-  cvUrl: '/cv.pdf',        // pon tu CV en /public/cv.pdf
-  bio: `Tu bio aquí...`,
-};
-```
-
-### 2. Tu dominio
-- `astro.config.mjs` → cambia `site: 'https://tudominio.com'`
-- `src/config/site.ts` → **misma URL** en `SITE.url` (canonical, OG, `hreflang`)
-- `public/robots.txt` → cambia la URL del sitemap
-
-### 3. Tus proyectos
-Edita `PROJECTS` en **`src/i18n/home.ts`** (en `homeEs` y, si aplica, `homeEn`). Cada proyecto tiene:
-- `num`: número (001, 002…)
-- `name`: nombre del proyecto
-- `desc`: descripción corta
-- `tags`: tecnologías usadas
-- `accentTags`: cuáles se resaltan en verde
-- `url`: link al proyecto o repositorio
-
-### 4. Tu stack
-Edita `STACK` en **`src/i18n/home.ts`** (por idioma si quieres títulos distintos).
-
-### 5. OG Image (importante para redes)
-Crea una imagen `1200 × 630px` y guárdala en `public/og-image.jpg`.
-
-### 6. Tu CV
-Guarda tu CV como `public/cv.pdf`.
-
-## Deploy en Vercel (recomendado)
-
-```bash
-# Instala Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-O conecta tu repositorio de GitHub a [vercel.com](https://vercel.com) y se deploya automáticamente en cada push.
-
-## Estructura del proyecto
-
-```
-portfolio/
-├── public/
-│   ├── favicon.svg
-│   ├── og-image.jpg     ← crea esta imagen (1200x630)
-│   ├── cv.pdf           ← tu CV
-│   └── robots.txt
-├── src/
-│   ├── components/
-│   │   ├── home/              — Secciones de la landing (hero, stack, etc.)
-│   │   ├── pages/
-│   │   │   └── HomePage.astro — Orquesta layout + secciones
-│   │   ├── Nav.astro          — Navbar + idioma
-│   │   ├── HeroHeadlinePretext.tsx — Nombre en mosaico micro-Matrix (Syne + DM Mono) + puntero / clic
-│   │   ├── PretextHero.tsx    — Referencia / no montado en la home
-│   │   └── Terminal.tsx       — Terminal animada
-│   ├── layouts/
-│   │   └── BaseLayout.astro   — SEO completo + Schema.org
-│   ├── pages/
-│   │   ├── index.astro        — Home ES (`/`)
-│   │   └── en/index.astro     — Home EN (`/en/`)
-│   ├── i18n/
-│   │   └── home.ts            — Textos ES / EN
-│   └── styles/
-│       └── global.css         — Tipografías + animaciones
-├── astro.config.mjs
-├── tailwind.config.mjs
-└── package.json
-```
-
-## Features de SEO incluidas
-
-- ✅ HTML estático (0 JS al primer render)
-- ✅ Meta title + description optimizados
-- ✅ Open Graph completo (Facebook, WhatsApp, LinkedIn)
-- ✅ Twitter Cards
-- ✅ Schema.org `Person` structured data
-- ✅ Canonical URL
-- ✅ Sitemap XML automático
-- ✅ robots.txt
-- ✅ Favicon SVG
-- ✅ `lang="es"` correcto
-- ✅ Alt texts en imágenes y canvas
-
-## Hero canvas + Pretext en el repo
-
-`HeroHeadlinePretext.tsx` dibuja **`ME.name`** en canvas como **mosaico**: la
-silueta de cada macro-letra (Syne offscreen) se rellena con microcaracteres en
-**DM Mono** (por defecto la misma letra; katakana/números en sustituciones
-raras y en ráfagas de glitch al clic). Hay un **fantasma** muy tenue a línea
-completa, **resalte circular**, **repel** ligero de celdas y **clic** = pulso +
-glitch. Con `prefers-reduced-motion` el canvas queda estático tras el primer
-layout estable. El **h1** para SEO es **sr-only** (nombre + cargo).
-`@chenglou/pretext` se usa en `PretextHero.tsx`, no en este hero.
-
-### Pretext.js — API de referencia
-
-```ts
-import { prepareWithSegments, layoutNextLine } from '@chenglou/pretext';
-
-// Una vez por bloque de texto + fuente (canvas measureText + caché)
-const prepared = prepareWithSegments('CREATIVE  INNOVATIVE  …', '500 13px "DM Mono", monospace');
-
-// Por cada franja de ancho (p. ej. columnas alrededor de un obstáculo)
-const line = layoutNextLine(prepared, { segmentIndex: 0, graphemeIndex: 0 }, maxWidth);
-// line.text, line.width, line.end → siguiente cursor
-```
+*Este sitio es un reflejo de mi compromiso con la calidad técnica y la innovación constante. Siéntete libre de explorar el código.*
