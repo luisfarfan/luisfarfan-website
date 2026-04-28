@@ -269,7 +269,7 @@ export default function HeroHeadlinePretext({ name }: HeroHeadlinePretextProps) 
           href="https://github.com/chenglou/pretext"
           target="_blank"
           rel="noopener noreferrer"
-          className="group absolute bottom-6 right-[5%] font-mono text-[0.6rem] text-accent italic hover:text-ink uppercase tracking-widest transition-all duration-300 cursor-pointer z-10 flex items-center gap-2 bg-accent/10 hover:bg-accent px-3 py-1.5 rounded-full border border-accent/30 backdrop-blur-md shadow-[0_4px_14px_rgba(0,200,150,0.15)] hover:shadow-[0_6px_20px_rgba(0,200,150,0.3)] hover:-translate-y-0.5 no-underline"
+          className="group absolute -bottom-2 right-0 sm:bottom-6 sm:right-[5%] font-mono text-[0.6rem] text-accent italic hover:text-ink uppercase tracking-widest transition-all duration-300 cursor-pointer z-10 flex items-center gap-2 bg-accent/10 hover:bg-accent px-3 py-1.5 rounded-full border border-accent/30 backdrop-blur-md shadow-[0_4px_14px_rgba(0,200,150,0.15)] hover:shadow-[0_6px_20px_rgba(0,200,150,0.3)] hover:-translate-y-0.5 no-underline"
           data-hover
         >
           <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse group-hover:bg-ink"></span>
