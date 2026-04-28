@@ -1,0 +1,118 @@
+---
+import type { HomeCopy } from '../i18n/home';
+
+interface Props {
+  footer: HomeCopy['footer'];
+  me: HomeCopy['ME'];
+  sectionId?: string;
+}
+
+const { footer, me, sectionId = 'contact' } = Astro.props;
+
+const contactLinks = [
+  { label: me.email,        href: `mailto:${me.email}`,  external: false },
+  { label: 'LinkedIn',      href: me.linkedin,           external: true  },
+  { label: footer.socialCv, href: me.cvUrl,              external: true  },
+];
+
+const footerLinks = [
+  { label: 'GitHub',    href: me.github  },
+  { label: 'Twitter/X', href: me.twitter },
+];
+---
+
+<section id={sectionId} class="bg-paper border-t border-border transition-colors duration-300">
+
+  <!-- Main grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px]" data-animate>
+
+    <!-- Left: the invite -->
+    <div class="px-6 sm:px-14 py-16 sm:py-24 border-b border-border lg:border-b-0 lg:border-r">
+      <p class="font-mono text-[0.625rem] tracking-[0.18em] text-accent uppercase mb-8">
+        {footer.kicker}
+      </p>
+      <h2
+        class="font-display text-[clamp(2.75rem,7vw,5rem)] font-extrabold text-ink tracking-[-0.03em] leading-[0.93] transition-colors duration-300"
+        set:html={footer.titleHtml}
+      />
+      <p class="font-mono text-[0.8125rem] text-muted leading-relaxed mt-8 max-w-[38ch]">
+        {footer.subtitle}
+      </p>
+    </div>
+
+    <!-- Right: contact links -->
+    <div class="px-6 sm:px-10 py-16 sm:py-24 flex flex-col justify-between gap-12 bg-ink/5 dark:bg-paper/5">
+
+      <nav aria-label="Contact links">
+        {contactLinks.map(({ label, href, external }) => (
+          <a
+            href={href}
+            target={external ? '_blank' : undefined}
+            rel={external ? 'noopener noreferrer' : undefined}
+            class="group flex items-baseline justify-between py-5 border-b border-border font-display font-semibold text-[1.125rem] text-ink/70 no-underline hover:text-accent transition-all duration-150 ease-out cursor-none relative"
+            data-hover
+            data-email-link={label === me.email ? 'true' : 'false'}
+          >
+            <span class="email-label">{label}</span>
+            <span class="copy-feedback absolute left-0 -top-2 text-[0.5rem] font-mono text-accent uppercase tracking-widest opacity-0 transition-all duration-300">¡Copiado!</span>
+            <span class="font-mono text-[0.8125rem] font-normal opacity-30 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all duration-150 ease-out">↗</span>
+          </a>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-2.5">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inset-0 rounded-full bg-accent animate-ping opacity-60"></span>
+          <span class="relative h-1.5 w-1.5 rounded-full bg-accent"></span>
+        </span>
+        <span class="font-mono text-[0.5625rem] tracking-[0.18em] text-accent uppercase">
+          {me.location} · GMT-5
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer strip -->
+  <div class="border-t border-border px-6 sm:px-10 py-5 flex items-center justify-between gap-4 flex-wrap">
+    <p class="font-mono text-[0.5625rem] text-muted tracking-[0.06em]">
+      © {new Date().getFullYear()} {me.name} · {footer.builtWith}
+    </p>
+    <div class="flex items-center gap-6">
+      {footerLinks.map(({ label, href }) => (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-mono text-[0.5625rem] text-muted tracking-[0.1em] uppercase no-underline hover:text-accent transition-colors duration-150 ease-out cursor-none"
+          data-hover
+        >
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    const emailLinks = document.querySelectorAll('[data-email-link="true"]');
+    
+    emailLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        const isMobile = window.matchMedia('(pointer: coarse)').matches;
+        // On mobile, just let the mailto: happen. On desktop, copy to clipboard.
+        if (!isMobile) {
+          e.preventDefault();
+          const email = (link as HTMLElement).innerText.split('\n')[0].trim();
+          navigator.clipboard.writeText(email).then(() => {
+            const feedback = link.querySelector('.copy-feedback');
+            if (feedback) {
+              feedback.classList.add('opacity-100', '-translate-y-2');
+              setTimeout(() => {
+                feedback.classList.remove('opacity-100', '-translate-y-2');
+              }, 2000);
+            }
+          });
+        }
+      });
+    });
+  </script>
+</section>

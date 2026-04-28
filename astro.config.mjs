@@ -18,4 +18,8 @@ export default defineConfig({
     sitemap(),
   ],
   output: 'static',
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'hover',
+  },
 });

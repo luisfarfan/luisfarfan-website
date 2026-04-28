@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { homeEs } from '../i18n/home';
+
+const { ME, meta, personJobTitle } = homeEs;
+
+// Simple 404 page that matches the site's aesthetic
+---
+
+<BaseLayout
+  lang="es"
+  title={`404: Not Found | ${ME.name}`}
+  description="Página no encontrada"
+  keywords={meta.keywords}
+  canonicalUrl=""
+  openGraphLocale="es_PE"
+  personName={ME.name}
+  personEmail={ME.email}
+  personJobTitle={personJobTitle}
+  personDescription={meta.description}
+  personSameAs={[ME.github, ME.linkedin, ME.twitter]}
+  hreflangAlternates={[]}
+>
+  <main class="min-h-screen flex flex-col items-center justify-center p-6 bg-grid-pattern text-center">
+    <div class="relative">
+      <h1 class="font-display text-[clamp(6rem,20vw,12rem)] font-black text-ink/5 tracking-tighter select-none">
+        404
+      </h1>
+      <div class="absolute inset-0 flex flex-col items-center justify-center">
+        <p class="font-mono text-accent text-[0.75rem] uppercase tracking-[0.3em] mb-4">
+          Error :: Connection Lost
+        </p>
+        <h2 class="font-display text-2xl sm:text-4xl font-bold text-ink mb-8">
+          Página no encontrada
+        </h2>
+        <a 
+          href="/" 
+          class="font-mono text-[0.6875rem] uppercase tracking-widest bg-ink text-paper px-8 py-4 hover:bg-accent hover:text-ink transition-all duration-300 no-underline cursor-none"
+          data-hover
+        >
+          Re-establecer conexión _
+        </a>
+      </div>
+    </div>
+    
+    <div class="mt-24 font-mono text-[0.6rem] text-muted uppercase tracking-[0.2em] max-w-xs leading-relaxed">
+      El recurso solicitado no pudo ser localizado en el servidor. <br/>
+      Verifica la URL o vuelve al inicio.
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  h1 {
+    -webkit-text-stroke: 1px color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+</style>
