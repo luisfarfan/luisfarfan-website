@@ -19,9 +19,9 @@ En ciudades como Lima, el fútbol amateur es un fenómeno social masivo. A parti
 
 Actualmente, el fútbol amateur carece de una herramienta que conecte la actividad física con un entorno digital. Los jugadores no tienen forma de ver sus estadísticas históricas y los organizadores (DTs) gestionan sus equipos de forma arcaica. FuZo transforma cada partido en una entrada de datos valiosa, creando un "perfil de carrera" para cada jugador amateur.
 
-## 2. Dos Modos, Una Sincronía Total
+## 2. La Solución: Un Ecosistema para el Amateur Pro
 
-FuZo se divide en dos experiencias optimizadas para los roles clave del ecosistema:
+FuZo profesionaliza la experiencia mediante una plataforma dual que sincroniza a todos los actores del partido:
 
 *   **Modo COACH (Gestión y Negocio):** Diseñado para los directores técnicos y organizadores de equipos. El Coach tiene el control total sobre la gestión de su plantilla, calendarios y finanzas. Este modo funciona bajo un modelo de **suscripción**, donde el DT profesionaliza su gestión a cambio de una plataforma robusta que le permite atraer y fidelizar a sus jugadores.
 *   **Modo PLAYER (Experiencia y Táctica):** Enfocado en el jugador. Cada usuario tiene acceso a su historial de partidos, goles y alertas de próximos encuentros. Una de las joyas de este modo es el **Tablero Táctico**, donde el jugador puede ver su posición en la alineación decidida por el coach antes del partido, aumentando la inmersión y el compromiso con el equipo.

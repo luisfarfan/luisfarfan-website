@@ -9,7 +9,6 @@ status: "stopped"
 progress: 100
 repositories:
   - { name: "CodeReborn Engine", url: "https://github.com/luisfarfan/codereborn-engine" }
-  - { name: "CodeReborn Console", url: "https://github.com/luisfarfan/codereborn-console" }
 ---
 
 # CodeReborn Engine: Systemic Intelligence Over Legacy Chaos
@@ -34,7 +33,13 @@ flowchart TD
 
 Modern software development often faces the "Legacy Debt" wall. CodeReborn Engine was designed not just as a tool, but as a specialized factory for technical understanding. By combining high-performance parsing with autonomous AI agents, we transform opaque source code into a map of strategic knowledge.
 
-## 1. Hybrid Ingestion: The Power of Tree-sitter
+## 1. The Problem: The Legacy "Black Box"
+In large organizations, legacy systems become black boxes where knowledge has been lost due to team rotation and lack of documentation. This technical debt paralyzes innovation, as teams spend more time trying to understand the code than building new features.
+
+## 2. The Solution: A Cognitive Engine for Code Understanding
+CodeReborn solves this by creating a systemic intelligence layer that crawls legacy repositories, extracts architecture signals deterministically, and uses AI agents to rebuild the missing context, generating live technical wikis.
+
+## 3. Hybrid Ingestion: The Power of Tree-sitter
 
 AI is only as good as the context it receives. Instead of sending raw, unstructured files to an LLM, CodeReborn uses **Tree-sitter** to perform incremental parsing. This allows us to:
 - Identify precise technical stacks via "Architecture DNA".

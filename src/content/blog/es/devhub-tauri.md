@@ -8,7 +8,7 @@ lang: "es"
 status: "ready"
 progress: 100
 repositories:
-  - { name: "myDevDock (DevHub Tauri)", url: "https://github.com/luisfarfan/dev-hub-tauri" }
+  - { name: "myDevDock", url: "https://github.com/luisfarfan/my-dev-dock" }
 ---
 
 # myDevDock: El Dock Definitivo para Desarrolladores

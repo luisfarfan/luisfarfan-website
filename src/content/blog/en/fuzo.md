@@ -19,9 +19,9 @@ In cities like Lima, amateur football is a massive social phenomenon. After 6:00
 
 Currently, amateur football lacks a tool that connects physical activity with a digital environment. Players have no way to see their historical stats, and organizers (Coaches) manage their teams in an archaic way. FuZo transforms every match into a valuable data entry, creating a "career profile" for every amateur player.
 
-## 2. Two Modes, Total Synchronization
+## 2. The Solution: An Ecosystem for the Amateur Pro
 
-FuZo is divided into two optimized experiences for the key roles in the ecosystem:
+FuZo professionalizes the experience through a dual platform that synchronizes all match participants:
 
 *   **COACH Mode (Management and Business):** Designed for technical directors and team organizers. The Coach has total control over roster management, calendars, and finances. This mode operates under a **subscription** model, where the Coach professionalizes their management in exchange for a robust platform that helps them attract and retain players.
 *   **PLAYER Mode (Experience and Tactics):** Focused on the player. Every user has access to their match history, goals, and upcoming match alerts. One of the highlights of this mode is the **Tactical Board**, where players can see their position in the lineup decided by the coach before the match, increasing immersion and commitment to the team.

@@ -9,7 +9,6 @@ status: "stopped"
 progress: 100
 repositories:
   - { name: "CodeReborn Engine", url: "https://github.com/luisfarfan/codereborn-engine" }
-  - { name: "CodeReborn Console", url: "https://github.com/luisfarfan/codereborn-console" }
 ---
 
 # CodeReborn Engine: Inteligencia Sistémica sobre el Caos Legacy
