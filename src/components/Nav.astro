@@ -12,8 +12,10 @@ interface Props {
 
 const { locale, nav, sectionIds, me } = Astro.props;
 const homeHref = getRelativeLocaleUrl(locale, '/');
-const hrefEs = getRelativeLocaleUrl('es', '/');
-const hrefEn = getRelativeLocaleUrl('en', '/');
+const currentPath = Astro.url.pathname;
+const cleanPath = locale === 'en' ? currentPath.replace(/^\/en/, '') : currentPath;
+const hrefEs = cleanPath || '/';
+const hrefEn = `/en${cleanPath === '/' ? '' : cleanPath}`;
 
 const links = [
   { href: `${homeHref}#${sectionIds.stack}`, label: nav.stack },

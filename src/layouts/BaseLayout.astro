@@ -92,20 +92,11 @@ const personSchema = {
 
     <script is:inline>
       const getTheme = () => {
-        // 1. Check local storage
         if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
           return localStorage.getItem('theme');
         }
-        
-        // 2. Check time of day (Automation)
-        const hour = new Date().getHours();
-        const isNight = hour >= 19 || hour < 7;
-        if (isNight) return 'dark';
-
-        // 3. Follow system preference
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       };
-
       const theme = getTheme();
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');

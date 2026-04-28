@@ -2,16 +2,14 @@
 ---
 
 <button
-  id="theme-toggle"
   type="button"
-  class="group relative flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] bg-paper/60 transition-colors hover:border-accent hover:bg-paper dark:border-white/[0.08] dark:bg-white/5 dark:hover:bg-white/10"
+  class="theme-toggle-btn group relative flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] bg-paper/60 transition-colors hover:border-accent hover:bg-paper dark:border-white/[0.08] dark:bg-white/5 dark:hover:bg-white/10"
   aria-label="Toggle theme"
   data-hover
 >
   {/* Sun Icon */}
   <svg
-    id="sun-icon"
-    class="h-[1.125rem] w-[1.125rem] text-muted transition-all duration-300 group-hover:text-accent dark:hidden"
+    class="sun-icon h-[1.125rem] w-[1.125rem] text-muted transition-all duration-300 group-hover:text-accent dark:hidden"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -30,8 +28,7 @@
 
   {/* Moon Icon */}
   <svg
-    id="moon-icon"
-    class="hidden h-[1.125rem] w-[1.125rem] text-muted transition-all duration-300 group-hover:text-accent dark:block"
+    class="moon-icon hidden h-[1.125rem] w-[1.125rem] text-muted transition-all duration-300 group-hover:text-accent dark:block"
     fill="none"
     viewBox="0 0 24 24"
     stroke="currentColor"
@@ -42,8 +39,6 @@
 </button>
 
 <script>
-  const toggle = document.getElementById('theme-toggle');
-  
   const handleToggle = () => {
     const isDark = document.documentElement.classList.contains('dark');
     const newTheme = isDark ? 'light' : 'dark';
@@ -51,9 +46,14 @@
     document.documentElement.classList.toggle('dark');
     localStorage.setItem('theme', newTheme);
     
-    // Dispatch a custom event so other components (like the Particle Text) can react
     window.dispatchEvent(new CustomEvent('theme-changed', { detail: { theme: newTheme } }));
   };
 
-  toggle?.addEventListener('click', handleToggle);
+  // Use delegation to avoid issues with ViewTransitions and duplicate listeners
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.closest('.theme-toggle-btn')) {
+      handleToggle();
+    }
+  });
 </script>
