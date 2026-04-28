@@ -160,10 +160,10 @@ export const homeEs: HomeCopy = {
     projectCount: 40,
     aiProjects: 8,
     location: 'Lima, Perú',
-    email: 'hola@tudominio.com',
-    github: 'https://github.com/tuusuario',
-    linkedin: 'https://linkedin.com/in/tuusuario',
-    twitter: 'https://twitter.com/tuusuario',
+    email: 'luisfarfanmelgar@gmail.com',
+    github: 'https://github.com/luisfarfan',
+    linkedin: 'https://www.linkedin.com/in/luis-farfan-melgar/',
+    twitter: '#',
     cvUrl: '/cv.pdf',
     bio: `12 años construyendo sistemas que escalan. No me especializo en una capa
 — domino el stack completo porque los mejores productos nacen cuando la misma
@@ -404,10 +404,10 @@ export const homeEn: HomeCopy = {
     projectCount: 40,
     aiProjects: 8,
     location: 'Lima, Peru',
-    email: 'hello@yourdomain.com',
-    github: 'https://github.com/youruser',
-    linkedin: 'https://linkedin.com/in/youruser',
-    twitter: 'https://twitter.com/youruser',
+    email: 'luisfarfanmelgar@gmail.com',
+    github: 'https://github.com/luisfarfan',
+    linkedin: 'https://www.linkedin.com/in/luis-farfan-melgar/',
+    twitter: '#',
     cvUrl: '/cv.pdf',
     bio: `Twelve years shipping systems that scale. I do not overspecialize in one layer
 —I own the full stack because the strongest products are shaped by the same mind
